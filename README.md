@@ -1,6 +1,6 @@
 # Heart-Disease
 
-Project motivation :The goal of collecting a dataset on heart diseases is to gather relevant information about the factors that influence the risk of gaining heart diseases. The results of analyzing this dataset can be utilized in various beneficial ways, including early diagnosis, research advancements, improving  treatments, and increasing awareness among the public regarding the common factors that can contribute to heart diseases.
+Project motivation :We decide to work on heart diseases dataset which describes the possibility for a person to suffer from heart diseases based on their bodies vital signs such as : blood pressure, cholesterol, etc . By gathering these information we want to increase the awareness for public health and early detection for heart diseases. Additionally, this dataset can prove invaluable in assisting individuals in preventing the onset of heart diseases.
 
 Students name : 
 Lina S. Alzeghaibi،
