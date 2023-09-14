@@ -4,10 +4,10 @@ Project motivation :We decide to work on heart diseases dataset which describes 
 
 Students name : 
 
-Lina S. Alzeghaibi،
+Lina S. Alzeghaibi
 
-Ghala T. Alaskar،
+Ghala T. Alaskar
 
-Sarah W. Aldbasi، 
+Sarah W. Aldbasi
 
 Reem A. Alhawass 
