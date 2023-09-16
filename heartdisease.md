@@ -23,7 +23,7 @@ https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset
 
 ### Data Type:
 Our dataset has 14 objects (attributes).
-our class label is the target. It is binary type which has value 0= no disease , 1=disease.
+Our class label is the target. It is binary type which has value 0= no disease , 1=disease.
 
 |Attributes name|Description|Data type|Possible values|
 |---------------|-----------|---------|---------------|
