@@ -22,9 +22,10 @@ https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset
 
 
 ### Data Type:
-Our dataset has 14 objects (attributes).
+Our dataset has 14 objects "attributes" (see Table 1).
 Our class label is the target. It is binary type which has value 0= no disease , 1=disease.
 
+Table 1: Information about the attributes for heart diseases dataset.
 |Attributes name|Description|Data type|Possible values|
 |---------------|-----------|---------|---------------|
 |Age|The person's age in years|Numeric|from 29 to 77|
