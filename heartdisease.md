@@ -12,7 +12,7 @@ The aim is to predict whether a person is at risk of having a certain type or le
 
 The objective is to develop a model that can accurately classify individuals into categories based on the presence or absence of a specific heart defect. This can aid in early detection, diagnosis, and treatment planning. Identifying these defects early allows healthcare professionals to intervene promptly and provide appropriate medical interventions.
 
-Overall, our DataSet for heart disease provides healthcare professionals with a powerful tool for diagnosing, classifying, and predicting heart disease.
+Overall, our Data set for heart disease provides healthcare professionals with a powerful tool for diagnosing, classifying, and predicting heart disease.
 
 #### Source:
 Kaggle website
