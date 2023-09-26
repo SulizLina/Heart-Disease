@@ -42,8 +42,7 @@ Table 1: Information about the attributes for heart diseases dataset.
 |ca|The number of major vessels(0-3)colored by flourosopy| Numeric| from 0 to 4|
 |thal|A blood disorder called thalassemia Value| Numeric| from 0 to 2 which 0=normal , 1= fixed defect , 2=reversible defect|
 
-
-
+We will import our dataset
 
 
 
