@@ -139,6 +139,23 @@ boxplot(dataset$oldpeak)
 ```{r}
 boxplot(dataset$ca)
 ```
+```{r}
+#Importing libraries
+library(aod)
+library(ggplot2)
+library(pROC)
+library(stats)
+library(caret)
+library(rpart.plot)
+library(randomForest)
+library(gbm)
+library(class)
+library(patchwork)
+```
+
+
+
+
 ###Graphical representation:
 
 ```{r}
