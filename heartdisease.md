@@ -552,7 +552,7 @@ testData=dataset[ind==2,]
 ```
 #####Information Gain:
 ```{r}
-myFormula<- target~Age+sex+cp+trestbps+chol+fbs+restecg+thalach+exang+oldpeak+slope+ca+thal
+myFormula<- target~age+sex+cp+trestbps+chol+restecg+thalach+exang+oldpeak+slope+ca+thal
 dataset_ctree<-ctree(myFormula, data=trainData)
 table(predict(dataset_ctree), trainData$target)
 ```
@@ -590,4 +590,68 @@ dim(testData)
 head(testData)
 ```
 
+
+
+
+
+
+
+
+###Clustering:
+```{r}
+library(factoextra)
+```
+
+
+###نحط اعلى اربععه عندنا من FS
+```{r}
+cdataset <- dataset[,!names(dataset) %in% c("target,oldpeak,chol,age")]
+```
+
+
+####Converting interger&factor columns too numeric
+```{r}
+cdataset$sex <- as.numeric(dataset$sex )
+cdataset$cp <- as.numeric(dataset$cp )
+cdataset$trestbps <- as.numeric(dataset$trestbps  )
+cdataset$restecg <- as.numeric(dataset$restecg )
+cdataset$thalach <- as.numeric(dataset$thalach)
+cdataset$exang <- as.numeric(dataset$exang)
+cdataset$slope <- as.numeric(dataset$slope)
+cdataset$ca <- as.numeric(dataset$ca)
+cdataset$thal <- as.numeric(dataset$thal)
+```
+
+
+#Let us see the structure again
+```{r}
+str(cdataset)
+```
+#####cluster k=2
+####calculate k-mean k=2
+```{r}
+km <- kmeans(cdataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100)
+km
+```
+
+#plot k-mean 
+```{r}
+fviz_cluster(list(data = cdataset, cluster = km$cluster),
+             ellipse.type = "norm", geom = "point", stand = FALSE,
+             palette = "jco", ggtheme = theme_classic())
+
+```
+
+####calculate k-mean k=3
+```{r}
+km <- kmeans(cdataset, 3, iter.max = 140 , algorithm="Lloyd", nstart=100)
+km
+```
+
+```{r}
+fviz_cluster(list(data = cdataset, cluster = km$cluster),
+             ellipse.type = "norm", geom = "point", stand = FALSE,
+             palette = "jco", ggtheme = theme_classic())
+
+```
 
