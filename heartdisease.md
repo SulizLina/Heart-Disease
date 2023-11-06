@@ -571,7 +571,7 @@ ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.80 , 0.20))
 train_data=dataset[ind==1,]
 test_data=dataset[ind==2,]
 ```
-#####Information Gain:
+#####Information Gain
 ```{r}
 
 ```
