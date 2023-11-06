@@ -547,15 +547,31 @@ test_data=dataset[ind==2,]
 ```{r}
 set.seed(1234)
 ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.75 , 0.25))
-trainData=dataset[ind==1,]
-testData=dataset[ind==2,]
+train_data=dataset[ind==1,]
+test_data=dataset[ind==2,]
 ```
 #####Information Gain:
 ```{r}
-myFormula<- target~Age+sex+cp+trestbps+chol+fbs+restecg+thalach+exang+oldpeak+slope+ca+thal
-dataset_ctree<-ctree(myFormula, data=trainData)
-table(predict(dataset_ctree), trainData$target)
+myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang + oldpeak + slope + ca + thal
+dataset_ctree<-ctree(myFormula, data=train_data)
+table(predict(dataset_ctree), train_data$target)
 ```
+######Tree based on information gain:
+```{r}
+print(dataset_ctree)
+plot(dataset_ctree)
+plot(dataset_ctree,type="simple")
+```
+######Prediction on test data:
+```{r}
+testPred<- predict(dataset_ctree,newdata=test_data)
+```
+######Confusion matrix:
+```{r}
+table(testPred,test_data$target)
+```
+
+
 #####Gain ratio:
 ```{r}
 
