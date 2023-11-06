@@ -522,12 +522,6 @@ After printing a sample from our new data set we notice that the attribute decre
 
 ```{r}
 library(party)
-library(boot)
-library(caTools)
-install.packages("RWeka")
-library(RWeka)
-install.packages("FSelector")
-library(FSelector)
 ```
 
 ####Partitioning num.1 the data into (70% training, 30% testing)
@@ -553,13 +547,14 @@ test_data=dataset[ind==2,]
 ```{r}
 set.seed(1234)
 ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.75 , 0.25))
-train_data=dataset[ind==1,]
-test_data=dataset[ind==2,]
+trainData=dataset[ind==1,]
+testData=dataset[ind==2,]
 ```
 #####Information Gain:
 ```{r}
-myFormula<- target
-
+myFormula<- target~Age+sex+cp+trestbps+chol+fbs+restecg+thalach+exang+oldpeak+slope+ca+thal
+dataset_ctree<-ctree(myFormula, data=trainData)
+table(predict(dataset_ctree), trainData$target)
 ```
 #####Gain ratio:
 ```{r}
