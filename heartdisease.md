@@ -518,6 +518,28 @@ nrow(dataset)
 After printing a sample from our new data set we notice that the attribute decrease from 14 to 13 since we remove Fasting blood sugar (fbs). Also, the rows decrease from 1025 to 302 since we remove the redunant data. 
 
 
+###Classification:
 
+```{r}
+library(party)
+```
+
+
+###Gini index
+####partitioning the data into ( 75% training, 25% testing)
+```{r}
+set.seed(1234)
+ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.75 , 0.25))
+trainData=dataset[ind==1,]
+testData=dataset[ind==2,]
+```
+
+```{r}
+dim(trainData)
+
+dim(testData)
+head(testData)
+     
+```
 
 
