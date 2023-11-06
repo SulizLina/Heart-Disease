@@ -61,7 +61,7 @@ library(caret)
 ```
 ###Reading the data:
 ```{r}
-data= read.csv('heart.csv')
+data= read.csv('DataSet/heart.csv')
 head(data)
 ```
 ###Check the duplication:
