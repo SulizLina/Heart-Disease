@@ -522,24 +522,77 @@ After printing a sample from our new data set we notice that the attribute decre
 
 ```{r}
 library(party)
+library(boot)
+library(caTools)
+install.packages("RWeka")
+library(RWeka)
+install.packages("FSelector")
+library(FSelector)
 ```
 
+####Partitioning num.1 the data into (70% training, 30% testing)
+```{r}
+set.seed(1234)
+ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.70 , 0.30))
+train_data=dataset[ind==1,]
+test_data=dataset[ind==2,]
+```
+#####Information Gain:
+```{r}
 
-###Gini index
-####partitioning the data into ( 75% training, 25% testing)
+```
+#####Gain ratio:
+```{r}
+
+```
+#####Gini index
+```{r}
+```
+
+####Partitioning num.2 the data into (75% training, 25% testing)
 ```{r}
 set.seed(1234)
 ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.75 , 0.25))
-trainData=dataset[ind==1,]
-testData=dataset[ind==2,]
+train_data=dataset[ind==1,]
+test_data=dataset[ind==2,]
 ```
+#####Information Gain:
+```{r}
+myFormula<- target
+
+```
+#####Gain ratio:
+```{r}
+
+```
+#####Gini index
+```{r}
+```
+
+####Partitioning num.3 the data into (80% training, 20% testing)
+```{r}
+set.seed(1234)
+ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.80 , 0.20))
+train_data=dataset[ind==1,]
+test_data=dataset[ind==2,]
+```
+#####Information Gain:
+```{r}
+
+```
+#####Gain ratio:
+```{r}
+
+```
+#####Gini index
+```{r}
+```
+
 
 ```{r}
 dim(trainData)
-
 dim(testData)
 head(testData)
-     
 ```
 
 
