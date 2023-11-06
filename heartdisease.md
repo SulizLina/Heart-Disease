@@ -518,8 +518,14 @@ nrow(dataset)
 After printing a sample from our new data set we notice that the attribute decrease from 14 to 13 since we remove Fasting blood sugar (fbs). Also, the rows decrease from 1025 to 302 since we remove the redunant data. 
 
 
-###Classification:
+######let the target be binary:
+```{r}
+dataset$target <- as.factor(dataset$target)
+```
 
+
+
+###Classification:
 ```{r}
 library(party)
 ```
@@ -533,8 +539,37 @@ test_data=dataset[ind==2,]
 ```
 #####Information Gain:
 ```{r}
-
+myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang + oldpeak + slope + ca + thal
+dataset_ctree<-ctree(myFormula, data=train_data)
+table(predict(dataset_ctree), train_data$target)
 ```
+######Tree based on information gain:
+```{r}
+print(dataset_ctree)
+plot(dataset_ctree)
+plot(dataset_ctree,type="simple")
+```
+######Prediction on test data:
+```{r}
+testPred<- predict(dataset_ctree,newdata=test_data)
+```
+
+######Confusion matrix:
+```{r}
+table(testPred,test_data$target)
+```
+```{r}
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
+```
+####Schedule for classification Evaluation:
+|Evaluation method|value|
+|-----------------|-----|
+|Accuracy|80.95%|
+|Error Rate|19.05%|
+|Sensitivity(Recall)|66.67%|
+|Specificity|91.67%|
+|Precision|78.57%|
 #####Gain ratio:
 ```{r}
 
@@ -566,11 +601,23 @@ plot(dataset_ctree,type="simple")
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
 ```
+
 ######Confusion matrix:
 ```{r}
 table(testPred,test_data$target)
 ```
-
+```{r}
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
+```
+####Schedule for classification Evaluation:
+|Evaluation method|value|
+|-----------------|-----|
+|Accuracy|79.71%|
+|Error Rate|20.29%|
+|Sensitivity(Recall)|75%|
+|Specificity|82.93%|
+|Precision|82.29%|
 
 #####Gain ratio:
 ```{r}
@@ -587,10 +634,39 @@ ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.80 , 0.20))
 train_data=dataset[ind==1,]
 test_data=dataset[ind==2,]
 ```
-#####Information Gain
+#####Information Gain:
 ```{r}
-
+myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang + oldpeak + slope + ca + thal
+dataset_ctree<-ctree(myFormula, data=train_data)
+table(predict(dataset_ctree), train_data$target)
 ```
+######Tree based on information gain:
+```{r}
+print(dataset_ctree)
+plot(dataset_ctree)
+plot(dataset_ctree,type="simple")
+```
+######Prediction on test data:
+```{r}
+testPred<- predict(dataset_ctree,newdata=test_data)
+```
+
+######Confusion matrix:
+```{r}
+table(testPred,test_data$target)
+```
+```{r}
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
+```
+####Schedule for classification Evaluation:
+|Evaluation method|value|
+|-----------------|-----|
+|Accuracy|83.02%|
+|Error Rate|16.98%|
+|Sensitivity(Recall)|75%|
+|Specificity|89.66%|
+|Precision|81.25%|
 #####Gain ratio:
 ```{r}
 
@@ -599,11 +675,5 @@ test_data=dataset[ind==2,]
 ```{r}
 ```
 
-
-```{r}
-dim(trainData)
-dim(testData)
-head(testData)
-```
 
 
