@@ -267,7 +267,6 @@ We have one outlier that we will handle which is in serum cholestoral (chol) att
 ```{r}
 dataset[129,5]=246.5
 ```
-
 ###Detecting wrong values:
 We are going to check if there is any wrong values out of the attributes values range.
 
@@ -576,6 +575,12 @@ print(results)
 ```
 #####Gini index
 ```{r}
+library(RWeka)
+library(caret)
+C45Fit <- train_data(Species ~., method="J48", data=dataset,
+                tuneLength = 5,
+                trControl = trainControl(
+                  method="cv", indexOut=train_data))
 ```
 
 ####Partitioning num.2 the data into (75% training, 25% testing)
@@ -674,6 +679,7 @@ print(results)
 #####Gini index
 ```{r}
 ```
+
 
 
 
