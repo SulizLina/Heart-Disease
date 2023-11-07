@@ -577,10 +577,23 @@ print(results)
 ```{r}
 library(RWeka)
 library(caret)
-C45Fit <- train_data(Species ~., method="J48", data=dataset,
-                tuneLength = 5,
-                trControl = trainControl(
-                  method="cv", indexOut=train_data))
+library(party)
+C45Fit <- J48(target~.,data=train_data)
+dataset_ctree<-ctree(C45Fit, data=train_data)
+table(predict(dataset_ctree), train_data$target)
+
+```
+```{r}
+print(dataset_ctree)
+plot(dataset_ctree)
+plot(dataset_ctree,type="simple")
+```
+```{r}
+testPred<- predict(dataset_ctree,newdata=test_data)
+```
+```{r}
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
 ```
 
 ####Partitioning num.2 the data into (75% training, 25% testing)
