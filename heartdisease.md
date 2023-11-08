@@ -527,6 +527,8 @@ dataset$target <- as.factor(dataset$target)
 ###Classification:
 ```{r}
 library(party)
+install.packages("partykit")
+library(partykit)
 ```
 
 ####Partitioning num.1 the data into (70% training, 30% testing)
@@ -575,8 +577,6 @@ table(predict(C45Fit), train_data$target)
 ```
 ######Tree based on Gain ratio:
 ```{r}
-install.packages("partykit")
-library(partykit)
 C45Fit
 plot(C45Fit)
 plot(C45Fit,type="simple")
@@ -618,16 +618,10 @@ print(dataset_ctree)
 plot(dataset_ctree)
 plot(dataset_ctree,type="simple")
 ```
-######Prediction on test data:
+
+######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
-```
-
-######Confusion matrix:
-```{r}
-table(testPred,test_data$target)
-```
-```{r}
 results<- confusionMatrix(testPred,test_data$target)
 print(results)
 ```
@@ -642,8 +636,34 @@ print(results)
 
 #####Gain ratio:
 ```{r}
-
+library(RWeka)
+library(caret)
+library(party)
+C45Fit <- J48(target~.,data=train_data)
+table(predict(C45Fit), train_data$target)
 ```
+######Tree based on Gain ratio:
+```{r}
+C45Fit
+plot(C45Fit)
+plot(C45Fit,type="simple")
+```
+
+######Prediction on test data and Confusion matrix:
+```{r}
+testPred<- predict(C45Fit,newdata=test_data)
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
+```
+
+####Schedule for classification Evaluation:
+|Evaluation method|value|
+|-----------------|-----|
+|Accuracy|80.95%|
+|Error Rate|19.05%|
+|Sensitivity(Recall)|66.67%|
+|Specificity|91.67%|
+|Precision|78.57%|
 #####Gini index
 ```{r}
 ```
@@ -672,16 +692,10 @@ print(dataset_ctree)
 plot(dataset_ctree)
 plot(dataset_ctree,type="simple")
 ```
-######Prediction on test data:
+
+######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
-```
-
-######Confusion matrix:
-```{r}
-table(testPred,test_data$target)
-```
-```{r}
 results<- confusionMatrix(testPred,test_data$target)
 print(results)
 ```
@@ -698,8 +712,34 @@ print(results)
 
 #####Gain ratio:
 ```{r}
-
+library(RWeka)
+library(caret)
+library(party)
+C45Fit <- J48(target~.,data=train_data)
+table(predict(C45Fit), train_data$target)
 ```
+######Tree based on Gain ratio:
+```{r}
+C45Fit
+plot(C45Fit)
+plot(C45Fit,type="simple")
+```
+
+######Prediction on test data and Confusion matrix:
+```{r}
+testPred<- predict(C45Fit,newdata=test_data)
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
+```
+
+####Schedule for classification Evaluation:
+|Evaluation method|value|
+|-----------------|-----|
+|Accuracy|80.95%|
+|Error Rate|19.05%|
+|Sensitivity(Recall)|66.67%|
+|Specificity|91.67%|
+|Precision|78.57%|
 #####Gini index
 ```{r}
 ```
