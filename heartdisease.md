@@ -537,6 +537,8 @@ set.seed(1234)
 ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.70 , 0.30))
 train_data=dataset[ind==1,]
 test_data=dataset[ind==2,]
+dim(train_data)
+dim(test_data)
 ```
 #####Information Gain:
 ```{r}
@@ -598,13 +600,36 @@ print(results)
 |Specificity|91.67%|
 |Precision|78.57%|
 
+#####Gini index
+```{r}
+library(rpart)
+library(rpart.plot)
+fit.tree=rpart(target~., data=train_data, method="class",cp=0.008)
+```
+######Tree based on  :
+```{r}
+print(fit.tree)
+rpart.plot(fit.tree)
+
+```
+
+######Prediction on test data and Confusion matrix:
+```{r}
+testPred<- predict(fit.tree,newdata=test_data)
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
+
+
 
 ####Partitioning num.2 the data into (75% training, 25% testing)
+
 ```{r}
 set.seed(1234)
 ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.75 , 0.25))
 train_data=dataset[ind==1,]
 test_data=dataset[ind==2,]
+dim(train_data)
+dim(test_data)
 ```
 #####Information Gain:
 ```{r}
@@ -679,6 +704,8 @@ set.seed(1234)
 ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.80 , 0.20))
 train_data=dataset[ind==1,]
 test_data=dataset[ind==2,]
+dim(train_data)
+dim(test_data)
 ```
 #####Information Gain:
 ```{r}
