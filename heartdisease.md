@@ -516,25 +516,41 @@ nrow(dataset)
 ```
 After printing a sample from our new data set we notice that the attribute decrease from 14 to 13 since we remove Fasting blood sugar (fbs). Also, the rows decrease from 1025 to 302 since we remove the redunant data. 
 
-
-######let the target be binary:
+######Let the target be binary:
 ```{r}
 dataset$target <- as.factor(dataset$target)
 ```
 
-
+##Classification and Clustering:
+We will apply supervised (Classification) and unsupervised (Clustering) learning techniques on our data set.
 
 ###Classification:
+It's a process about labeling the data object into predefined classes based on their attribute values. It aims to build and construct a predictive model that can precisely predict the correct class of the new data (unseen data) based on learning process that was applied on the training data. the Classification involves three steps which are: 
+1. Construct the model by using Training set.
+2. Evaluate the model by using Test set which determine the accuracy 
+3. Based on the accuracy results acceptance, we will determine if the model can be used for prediction new data.
+ 
+Our classification goal is to build a model that predicts our data set class label which is target which is either 1= targeted to have a heart disease or 0 = not targeted to have a heart disease based on the attributes.
+We will partition the data into two partitions which are training and testing sets by trying three different sizes to determine the best size for our model using sample method we assign "True" value to replace attributes since our data set is small so we need a partitioning method that is suitable for small data size and construct samples with replacement.
+For each partition size we construct three decision tree using different attribute selection method which are:Information gain (ID3), Gain ratio (C4.5) and Gini index (CART). For information gain we used ctree method to build the tree Where for gain ratio we used J48 method. For Gini index we used rpart method.For prediction we used predict method. Also, for evaluation and testing we used confusionMatrix method.
+
+####Classification packages:
+We install and call predifined packages in R language to help us in classification process. which shown below:
 ```{r}
-library(party)
 install.packages("partykit")
+library(party)
 library(partykit)
+library(RWeka)
+library(caret)
+library(rpart)
+library(rpart.plot)
 ```
 
-####Partitioning num.1 the data into (70% training, 30% testing)
+####Partitioning num.1 
+We partition the data the data into (70% training, 30% testing). This result in 218 row in the training set and 84 row in the testing set.
 ```{r}
 set.seed(1234)
-ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.70 , 0.30))
+ind=sample(2, nrow(dataset), replace=TRUE, prob=c(0.70 , 0.30))
 train_data=dataset[ind==1,]
 test_data=dataset[ind==2,]
 dim(train_data)
@@ -571,15 +587,12 @@ print(results)
 
 #####Gain ratio:
 ```{r}
-library(RWeka)
-library(caret)
-library(party)
 C45Fit <- J48(target~.,data=train_data)
 table(predict(C45Fit), train_data$target)
 ```
 ######Tree based on Gain ratio:
 ```{r}
-C45Fit
+print(C45Fit)
 plot(C45Fit)
 plot(C45Fit,type="simple")
 ```
@@ -594,35 +607,39 @@ print(results)
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
-|Accuracy|80.95%|
-|Error Rate|19.05%|
-|Sensitivity(Recall)|66.67%|
-|Specificity|91.67%|
-|Precision|78.57%|
+|Accuracy|   |
+|Error Rate|  |
+|Sensitivity(Recall)|  |
+|Specificity|  |
+|Precision|  |
 
 #####Gini index
 ```{r}
-library(rpart)
-library(rpart.plot)
 fit.tree=rpart(target~., data=train_data, method="class",cp=0.008)
 ```
-######Tree based on  :
+######Tree based on Gini index :
 ```{r}
 print(fit.tree)
 rpart.plot(fit.tree)
-
 ```
 
 ######Prediction on test data and Confusion matrix:
 ```{r}
-testPred<- predict(fit.tree,newdata=test_data)
+testPred<- predict(fit.tree,newdata=test_data,type="class")
 results<- confusionMatrix(testPred,test_data$target)
 print(results)
+```
+####Schedule for classification Evaluation:
+|Evaluation method|value|
+|-----------------|-----|
+|Accuracy|   |
+|Error Rate|  |
+|Sensitivity(Recall)|  |
+|Specificity|  |
+|Precision|  |
 
-
-
-####Partitioning num.2 the data into (75% training, 25% testing)
-
+####Partitioning num.2 
+We partition the data the data into (75% training, 25% testing). This result in 233 row in the training set and 69 row in the testing set.
 ```{r}
 set.seed(1234)
 ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.75 , 0.25))
@@ -661,9 +678,6 @@ print(results)
 
 #####Gain ratio:
 ```{r}
-library(RWeka)
-library(caret)
-library(party)
 C45Fit <- J48(target~.,data=train_data)
 table(predict(C45Fit), train_data$target)
 ```
@@ -689,16 +703,35 @@ print(results)
 |Sensitivity(Recall)|66.67%|
 |Specificity|91.67%|
 |Precision|78.57%|
-#####Gini index
+
+#####Gini index:
 ```{r}
+fit.tree=rpart(target~., data=train_data, method="class",cp=0.008)
+```
+######Tree based on Gini index :
+```{r}
+print(fit.tree)
+rpart.plot(fit.tree)
 ```
 
+######Prediction on test data and Confusion matrix:
+```{r}
+testPred<- predict(fit.tree,newdata=test_data,type="class")
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
+```
+####Schedule for classification Evaluation:
+|Evaluation method|value|
+|-----------------|-----|
+|Accuracy|   |
+|Error Rate|  |
+|Sensitivity(Recall)|  |
+|Specificity|  |
+|Precision|  |
 
 
-
-
-
-####Partitioning num.3 the data into (80% training, 20% testing)
+####Partitioning num.3 the data into 
+We partition the data the data into (80% training, 20% testing). This result in 249 row in the training set and 53 row in the testing set.
 ```{r}
 set.seed(1234)
 ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.80 , 0.20))
@@ -735,19 +768,14 @@ print(results)
 |Specificity|89.66%|
 |Precision|81.25%|
 
-
-
 #####Gain ratio:
 ```{r}
-library(RWeka)
-library(caret)
-library(party)
 C45Fit <- J48(target~.,data=train_data)
 table(predict(C45Fit), train_data$target)
 ```
 ######Tree based on Gain ratio:
 ```{r}
-C45Fit
+print(C45Fit)
 plot(C45Fit)
 plot(C45Fit,type="simple")
 ```
@@ -758,7 +786,6 @@ testPred<- predict(C45Fit,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target)
 print(results)
 ```
-
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
@@ -767,10 +794,32 @@ print(results)
 |Sensitivity(Recall)|66.67%|
 |Specificity|91.67%|
 |Precision|78.57%|
+
 #####Gini index
 ```{r}
+fit.tree=rpart(target~., data=train_data, method="class",cp=0.008)
+```
+######Tree based on Gini index :
+```{r}
+print(fit.tree)
+rpart.plot(fit.tree)
 ```
 
+######Prediction on test data and Confusion matrix:
+```{r}
+testPred<- predict(fit.tree,newdata=test_data,type="class")
+results<- confusionMatrix(testPred,test_data$target)
+print(results)
+```
+####Schedule for classification Evaluation:
+|Evaluation method|value|
+|-----------------|-----|
+|Accuracy|   |
+|Error Rate|  |
+|Sensitivity(Recall)|  |
+|Specificity|  |
+|Precision|  |
 
 
+###Findings:
 
