@@ -826,25 +826,12 @@ print(results)
 
 ###Clustering  ###نحط اعلى اربععه عندنا من FS <- هونت لا تحذفين  <<<<<<< HEAD 
 ```{r}
-classlabel<-dataset$target
-dataset <- dataset[, -which(names(dataset) == "target")] 
-```
-
-```{r}
-head(dataset)
+classlabel<-dataset$target dataset <- dataset[, -which(names(dataset) == "target")] head(dataset)
 ```
 
 ####Converting interger&factor columns too numeric  
 ```{r}
-dataset$sex <- as.numeric(dataset$sex ) 
-dataset$cp <- as.numeric(dataset$cp )
-dataset$trestbps <- as.numeric(dataset$trestbps) 
-dataset$restecg <- as.numeric(dataset$restecg) 
-dataset$thalach <- as.numeric(dataset$thalach)
-dataset$exang <- as.numeric(dataset$exang)
-dataset$slope <- as.numeric(dataset$slope)
-dataset$ca <- as.numeric(dataset$ca)
-dataset$thal <- as.numeric(dataset$thal)
+dataset$sex <- as.numeric(dataset$sex ) dataset$cp <- as.numeric(dataset$cp ) dataset$trestbps <- as.numeric(dataset$trestbps  ) dataset$restecg <- as.numeric(dataset$restecg ) dataset$thalach <- as.numeric(dataset$thalach) dataset$exang <- as.numeric(dataset$exang) dataset$slope <- as.numeric(dataset$slope) dataset$ca <- as.numeric(dataset$ca) dataset$thal <- as.numeric(dataset$thal)
 ```
 
 #Let us see the structure again  
