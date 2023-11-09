@@ -823,9 +823,9 @@ print(results)
 
 ###Findings:
 
-
+ باقي ما غيرتي كود الدس فوق زي ماقالت ريم وبعد فيه كود البي كيوبد سويتيه على واحد بس سويه على الباقي و كود السكويرز لهم كلهم الظاهر اني ماحطيته 
 ###Clustering:
-Clustering is the task of arranging a set of objects in such a way that objects in the same group (called a cluster) are more comparable (in some sense) to those in other groups (clusters).
+Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters).
 In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall).
 ####Removing the class label(target)
 before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
@@ -834,7 +834,7 @@ dataBeforC<-dataset #in case we need the old dataset(with the class label)
 dataset <- dataset[, -which(names(dataset) == "target")]
 ```
 
-####Converting interger&factor columns too numeric  
+####Converting interger columns too numeric  
 ```{r}
 dataset$sex <- as.numeric(dataset$sex ) 
 dataset$cp <- as.numeric(dataset$cp )
@@ -846,8 +846,8 @@ dataset$slope <- as.numeric(dataset$slope)
 dataset$ca <- as.numeric(dataset$ca) 
 dataset$thal <- as.numeric(dataset$thal)
 ```
-
-#Let us see the structure again  
+مدري وش المفروض اكتب كلام هنا
+here is a simple representation to our structure after converting all data into numeric 
 ```{r}
 str(dataset)
 ```
@@ -981,7 +981,7 @@ fviz_silhouette(sil)
 ```{r}
 library(NbClust)
 ```
-يعلمني وش احسن واحد 
+يعلمني وش احسن كلستر 
 ```{r}
 fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
 ```
