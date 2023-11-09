@@ -823,3 +823,122 @@ print(results)
 
 ###Findings:
 
+
+###Clustering  ###نحط اعلى اربععه عندنا من FS <- هونت لا تحذفين  <<<<<<< HEAD 
+```{r}
+classlabel<-dataset$target dataset <- dataset[, -which(names(dataset) == "target")] head(dataset)
+```
+
+####Converting interger&factor columns too numeric  
+```{r}
+dataset$sex <- as.numeric(dataset$sex ) dataset$cp <- as.numeric(dataset$cp ) dataset$trestbps <- as.numeric(dataset$trestbps  ) dataset$restecg <- as.numeric(dataset$restecg ) dataset$thalach <- as.numeric(dataset$thalach) dataset$exang <- as.numeric(dataset$exang) dataset$slope <- as.numeric(dataset$slope) dataset$ca <- as.numeric(dataset$ca) dataset$thal <- as.numeric(dataset$thal)
+```
+
+#Let us see the structure again  
+```{r}
+str(dataset)
+```
+
+#####cluster k=2 ####calculate k-mean k=2
+```{r}
+km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+```
+
+#plot k-mean
+```{r}
+fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic())
+```
+
+#avg silhouette
+```{r}
+library(cluster)
+```
+
+```{r}
+sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+```
+
+```{r}
+fviz_silhouette(sil)
+```
+
+#### Total sum of squares
+```{r}
+km$totss
+```
+
+####BCubed precision and recall
+```{r}
+BCubed_metric(km$cluster,classlabel,0.5)
+```
+
+####calculate k-mean k=3
+```{r}
+km <- kmeans(dataset, 3, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+```
+
+#plot k-mean
+```{r}
+fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic())
+```
+
+#avg silhouette
+```{r}
+library(cluster)
+```
+
+```{r}
+sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+```
+
+```{r}
+fviz_silhouette(sil)
+```
+
+####calculate k-mean k=4
+```{r}
+km <- kmeans(dataset, 4, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+```
+
+#plot k-mean
+```{r}
+fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic()) 
+```
+
+#avg silhouette  
+```{r}
+library(cluster)
+```
+
+```{r}
+sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+```
+
+```{r}
+fviz_silhouette(sil)
+```
+
+```{r}
+library(NbClust)
+```
+يعلمني وش احسن واحد 
+```{r}
+fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
+```
+======= ###Findings: >>>>>>> 68fd5bf5e5aecfae7655fbf1c8ba0968a961f194
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
