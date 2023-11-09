@@ -826,7 +826,12 @@ print(results)
 
 ###Clustering  ###نحط اعلى اربععه عندنا من FS <- هونت لا تحذفين  <<<<<<< HEAD 
 ```{r}
-classlabel<-dataset$target dataset <- dataset[, -which(names(dataset) == "target")] head(dataset)
+classlabel<-dataset$target
+dataset <- dataset[, -which(names(dataset) == "target")] 
+```
+
+```{r}
+head(dataset)
 ```
 
 ####Converting interger&factor columns too numeric  
