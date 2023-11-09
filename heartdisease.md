@@ -823,7 +823,7 @@ print(results)
 
 ###Findings:
 
- باقي ما غيرتي كود الدس فوق زي ماقالت ريم وبعد فيه كود البي كيوبد سويتيه على واحد بس سويه على الباقي و كود السكويرز لهم كلهم الظاهر اني ماحطيته 
+ باقي ما غيرتي كود الدس فوق زي ماقالت ريم وبعد فيه كود البي كيوبد سويتيه على واحد بس سويه على الباقي و كود السكويرز(الكوع) سويه لهم كلهم الظاهر اني ماحطيته 
 ###Clustering:
 Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters).
 In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall).
@@ -834,7 +834,7 @@ dataBeforC<-dataset #in case we need the old dataset(with the class label)
 dataset <- dataset[, -which(names(dataset) == "target")]
 ```
 
-####Converting interger columns too numeric  
+####Converting interger columns too numeric  مدري وش المفروض اكتب كلام هنا
 ```{r}
 dataset$sex <- as.numeric(dataset$sex ) 
 dataset$cp <- as.numeric(dataset$cp )
@@ -846,7 +846,7 @@ dataset$slope <- as.numeric(dataset$slope)
 dataset$ca <- as.numeric(dataset$ca) 
 dataset$thal <- as.numeric(dataset$thal)
 ```
-مدري وش المفروض اكتب كلام هنا
+
 here is a simple representation to our structure after converting all data into numeric 
 ```{r}
 str(dataset)
@@ -955,6 +955,55 @@ sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
 fviz_silhouette(sil)
 ```
 
+####BCubed precision and recall
+```{r}
+cluster_assignments <- c(km$cluster)
+ground_truth_labels <- c(dataBeforC$target)
+
+data <- data.frame(cluster = cluster_assignments, label = ground_truth_labels)
+
+# Function to calculate BCubed precision and recall
+calculate_bcubed_metrics <- function(data) {
+  n <- nrow(data)
+  precision_sum <- 0
+  recall_sum <- 0
+
+  for (i in 1:n) {
+    cluster <- data$cluster[i]
+    label <- data$label[i]
+    
+# Count the number of items from the same category within the same cluster
+same_category_same_cluster <- sum(data$label[data$cluster == cluster] == label)
+    
+# Count the total number of items in the same cluster
+total_same_cluster <- sum(data$cluster == cluster)
+    
+# Count the total number of items with the same category
+total_same_category <- sum(data$label == label)
+    
+# Calculate precision and recall for the current item and add them to the sums
+precision_sum <- precision_sum + same_category_same_cluster /total_same_cluster
+recall_sum <- recall_sum + same_category_same_cluster / total_same_category
+  }
+
+  # Calculate average precision and recall
+  precision <- precision_sum / n
+  recall <- recall_sum / n
+
+  return(list(precision = precision, recall = recall))
+}
+
+# Calculate BCubed precision and recall
+metrics <- calculate_bcubed_metrics(data)
+
+# Extract precision and recall from the metrics
+precision <- metrics$precision
+recall <- metrics$recall
+
+# Print the results
+cat("BCubed Precision:", precision, "\n")
+cat("BCubed Recall:", recall, "\n")
+```
 ####calculate k-mean k=4
 ```{r}
 km <- kmeans(dataset, 4, iter.max = 140 , algorithm="Lloyd", nstart=100) km
@@ -976,6 +1025,56 @@ sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
 
 ```{r}
 fviz_silhouette(sil)
+```
+
+####BCubed precision and recall
+```{r}
+cluster_assignments <- c(km$cluster)
+ground_truth_labels <- c(dataBeforC$target)
+
+data <- data.frame(cluster = cluster_assignments, label = ground_truth_labels)
+
+# Function to calculate BCubed precision and recall
+calculate_bcubed_metrics <- function(data) {
+  n <- nrow(data)
+  precision_sum <- 0
+  recall_sum <- 0
+
+  for (i in 1:n) {
+    cluster <- data$cluster[i]
+    label <- data$label[i]
+    
+# Count the number of items from the same category within the same cluster
+same_category_same_cluster <- sum(data$label[data$cluster == cluster] == label)
+    
+# Count the total number of items in the same cluster
+total_same_cluster <- sum(data$cluster == cluster)
+    
+# Count the total number of items with the same category
+total_same_category <- sum(data$label == label)
+    
+# Calculate precision and recall for the current item and add them to the sums
+precision_sum <- precision_sum + same_category_same_cluster /total_same_cluster
+recall_sum <- recall_sum + same_category_same_cluster / total_same_category
+  }
+
+  # Calculate average precision and recall
+  precision <- precision_sum / n
+  recall <- recall_sum / n
+
+  return(list(precision = precision, recall = recall))
+}
+
+# Calculate BCubed precision and recall
+metrics <- calculate_bcubed_metrics(data)
+
+# Extract precision and recall from the metrics
+precision <- metrics$precision
+recall <- metrics$recall
+
+# Print the results
+cat("BCubed Precision:", precision, "\n")
+cat("BCubed Recall:", recall, "\n")
 ```
 
 ```{r}
