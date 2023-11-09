@@ -824,14 +824,27 @@ print(results)
 ###Findings:
 
 
-###Clustering  ###نحط اعلى اربععه عندنا من FS <- هونت لا تحذفين  <<<<<<< HEAD 
+###Clustering:
+Clustering is the task of arranging a set of objects in such a way that objects in the same group (called a cluster) are more comparable (in some sense) to those in other groups (clusters).
+In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall).
+####Removing the class label(target)
+before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
 ```{r}
-classlabel<-dataset$target dataset <- dataset[, -which(names(dataset) == "target")] head(dataset)
+dataBeforC<-dataset #in case we need the old dataset(with the class label)
+dataset <- dataset[, -which(names(dataset) == "target")]
 ```
 
 ####Converting interger&factor columns too numeric  
 ```{r}
-dataset$sex <- as.numeric(dataset$sex ) dataset$cp <- as.numeric(dataset$cp ) dataset$trestbps <- as.numeric(dataset$trestbps  ) dataset$restecg <- as.numeric(dataset$restecg ) dataset$thalach <- as.numeric(dataset$thalach) dataset$exang <- as.numeric(dataset$exang) dataset$slope <- as.numeric(dataset$slope) dataset$ca <- as.numeric(dataset$ca) dataset$thal <- as.numeric(dataset$thal)
+dataset$sex <- as.numeric(dataset$sex ) 
+dataset$cp <- as.numeric(dataset$cp )
+dataset$trestbps <- as.numeric(dataset$trestbps  ) 
+dataset$restecg <- as.numeric(dataset$restecg ) 
+dataset$thalach <- as.numeric(dataset$thalach)
+dataset$exang <- as.numeric(dataset$exang) 
+dataset$slope <- as.numeric(dataset$slope)
+dataset$ca <- as.numeric(dataset$ca) 
+dataset$thal <- as.numeric(dataset$thal)
 ```
 
 #Let us see the structure again  
@@ -846,7 +859,9 @@ km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) km
 
 #plot k-mean
 ```{r}
-fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic())
+fviz_cluster(list(data = dataset, cluster = km$cluster),
+             ellipse.type = "norm", geom = "point", stand = FALSE,      
+             palette = "jco", ggtheme = theme_classic())
 ```
 
 #avg silhouette
@@ -869,7 +884,52 @@ km$totss
 
 ####BCubed precision and recall
 ```{r}
-BCubed_metric(km$cluster,classlabel,0.5)
+cluster_assignments <- c(km$cluster)
+ground_truth_labels <- c(dataBeforC$target)
+
+data <- data.frame(cluster = cluster_assignments, label = ground_truth_labels)
+
+# Function to calculate BCubed precision and recall
+calculate_bcubed_metrics <- function(data) {
+  n <- nrow(data)
+  precision_sum <- 0
+  recall_sum <- 0
+
+  for (i in 1:n) {
+    cluster <- data$cluster[i]
+    label <- data$label[i]
+    
+# Count the number of items from the same category within the same cluster
+same_category_same_cluster <- sum(data$label[data$cluster == cluster] == label)
+    
+# Count the total number of items in the same cluster
+total_same_cluster <- sum(data$cluster == cluster)
+    
+# Count the total number of items with the same category
+total_same_category <- sum(data$label == label)
+    
+# Calculate precision and recall for the current item and add them to the sums
+precision_sum <- precision_sum + same_category_same_cluster /total_same_cluster
+recall_sum <- recall_sum + same_category_same_cluster / total_same_category
+  }
+
+  # Calculate average precision and recall
+  precision <- precision_sum / n
+  recall <- recall_sum / n
+
+  return(list(precision = precision, recall = recall))
+}
+
+# Calculate BCubed precision and recall
+metrics <- calculate_bcubed_metrics(data)
+
+# Extract precision and recall from the metrics
+precision <- metrics$precision
+recall <- metrics$recall
+
+# Print the results
+cat("BCubed Precision:", precision, "\n")
+cat("BCubed Recall:", recall, "\n")
 ```
 
 ####calculate k-mean k=3
