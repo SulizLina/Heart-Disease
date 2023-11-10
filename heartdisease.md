@@ -886,7 +886,7 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
              palette = "jco", ggtheme = theme_classic())
 ```
 
-#avg silhouette
+#Average silhouette
 ```{r}
 sil <- silhouette(km$cluster, dist(dataset)) 
 rownames(sil) <- rownames(dataset)
@@ -964,8 +964,7 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
              palette = "jco", ggtheme = theme_classic())
 ```
 
-#avg silhouette
-
+#### Average silhouette
 ```{r}
 sil <- silhouette(km$cluster, dist(dataset))
 rownames(sil) <- rownames(dataset)
@@ -1037,8 +1036,7 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
              palette = "jco", ggtheme = theme_classic()) 
 ```
 
-#avg silhouette  
-
+####Average silhouette
 ```{r}
 sil <- silhouette(km$cluster, dist(dataset))
 rownames(sil) <- rownames(dataset)
@@ -1104,7 +1102,8 @@ fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette 
 ```
 |               |k=2(Best)|k=3|k=4|
 |-----------------|-----|-----|-----|
-|Average Silhouette width| 0.53 | 0.47 | 0.4  |
+|Average Silhouette width for each cluter| cluter1=0.53, cluter2=0.53| cluter1=0.46, cluter2=0.53,cluter3=0.43| cluter1=0.39, cluter2=0.39,cluter3=0.47 ,cluter4=0.37|
+|Average Silhouette width for all cluters| 0.53 | 0.47 | 0.4  |
 |total within-cluster sum of square| ##Not sure |
 |BCubed (precision)| 0.5347233  | 0.5250096   | 0.5502816   |
 |BCubed (recall)| 0.5523007  | 0.3668491   | 0.2854758    |
