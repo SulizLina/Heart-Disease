@@ -495,6 +495,19 @@ dataset$age=factor(dataset$age,levels=c("Children","Young Adults","Middle-aged A
 
 ###Chi-square for nominal data:
 
+|         Attribute name                   | Chi-square value              |              
+|------------------------------------------|----------------------------------|
+| Sex                                      | 23.084       | 
+| Chest pain type (cp)                     | 80.979                             |                                            
+| Fasting blood sugar (fbs)                | 0.092408                    |                                           
+| Resting electrocardiographic result (restecg)| 9.7297                    |                                            
+| Exercise induced anginal (exang)        | 55.456               |
+|The slope of the peak exercise ST segment (slope)| 46.889              |
+| Number of major vessels (ca)| 73.689                        |
+| A blood disorder (thal)     | 83.978                  |
+|Age(after discretization)| 8.7992           |
+|Resting blood pressure (trestbps)|  9.8824    |
+
 ####Sex:
 
 ```{r}
@@ -565,7 +578,16 @@ ctrestbps=chisq.test(dataset$trestbps ,dataset$target)
 print(ctrestbps)
 ```
 
-###Chi-square Results: We will sort the Chi-square values from the highest to the lowest: 1) A blood disorder (thal) with value 83.978. 2) Chest pain type (cp) with value 80.979. 3) Number of major vessels (ca) with value 73.69. 4) Exercise induced anginal (exang) with value 55.456. 5) The slope of the peak exercise ST segment (slope) with value 46.889. 6) Sex with value 23.084. 7) resting blood pressure (trestbps) with value 9.8824. 8) Resting electrocardiographic result (restecg) with value 9.7297. 9) Age with value 8.7992. 10) Fasting blood sugar(fbs) with value 0.092408.
+###Chi-square Results: We will sort the Chi-square values from the highest to the lowest:
+1) A blood disorder (thal) with value 83.978. 
+2) Chest pain type (cp) with value 80.979. 3) Number of major vessels (ca) with value 73.69.
+4) Exercise induced anginal (exang) with value 55.456.
+5) The slope of the peak exercise ST segment (slope) with value 46.889.
+6) Sex with value 23.084.
+7) resting blood pressure (trestbps) with value 9.8824. 
+8) Resting electrocardiographic result (restecg) with value 9.7297. 
+9) Age with value 8.7992. 
+10) Fasting blood sugar(fbs) with value 0.092408.
 
 All of the attributes is dependent to the class lable (target) except Fasting blood sugar(fbs) since the p-value is higher than chi-square value (chi-square = 0.092408 \< 0.7611 = p-value).
 
@@ -896,7 +918,7 @@ Clustering is the task of arranging a set of objects in such a way that objects 
 ####Removing the class label(target) before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
 
 ```{r}
-dataBeforC<-dataset #in case we need the old dataset(with the class label)
+dataBeforC<-dataset #in case we need the old data set(with the class label)
 dataset <- dataset[, -which(names(dataset) == "target")]
 ```
 
@@ -906,7 +928,7 @@ since we applied discretization to the age we can't deal with factors during the
 dataset$age <- AgeBeforeDis
 ```
 
-####Converting interger columns too numeric مدري وش المفروض اكتب كلام هنا
+####Converting interger columns to numeric 
 
 ```{r}
 dataset$sex <- as.numeric(dataset$sex ) 
