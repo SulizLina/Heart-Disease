@@ -827,7 +827,6 @@ print(results)
 
 ###Findings:
  
- there is a problem in the sli
 ###Clustering:
 Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters).
 In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall).
@@ -865,6 +864,8 @@ str(dataset)
 ```{r}
 install.packages("factoextra")
 library(factoextra)
+library(NbClust)
+library(cluster)
 ```
 
 
@@ -883,11 +884,8 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
 
 #avg silhouette
 ```{r}
-library(cluster)
-```
-
-```{r}
-sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+sil <- silhouette(km$cluster, dist(dataset)) 
+rownames(sil) <- rownames(dataset)
 ```
 
 ```{r}
@@ -1097,9 +1095,6 @@ cat("BCubed Precision:", precision, "\n")
 cat("BCubed Recall:", recall, "\n")
 ```
 
-```{r}
-library(NbClust)
-```
 يعلمني وش احسن كلستر 
 ```{r}
 fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
