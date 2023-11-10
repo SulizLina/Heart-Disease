@@ -159,9 +159,9 @@ percentages <- tab %>% prop.table() %>% round(3) * 100
 txt <- paste0(names(tab), '\n', percentages, '%')
 pie(tab, labels = txt, main="percentage of the target")
 ```
-The pie chart help us to know the percentage of the people in our data set who might be targeted by heart diseases. More than half of the people (represented by 54.3%) has high potentials of getting infected. In other side less than half of the people (represented by 45.7%) has low potentials of getting infected.
+The pie chart help us to know the percentage of the people in our data set who might be targeted by heart diseases. More than half of the people (represented by 54.3%) has high potentials of getting infected. In other side less than half of the people (represented by 45.7%) has low potentials of getting infected. So, we determine that our data set is balanced since the two percentage of our class label are almost close together.
 
-####Graph between the sex and the target.
+####Graph between the sex and the target bar chart.
 ```{r}
 ggplot(dataset, aes(x = sex, fill = as.factor(target))) +
   geom_bar(stat = "count", position = "stack", width = 0.6, show.legend = TRUE) +
@@ -562,12 +562,14 @@ myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang
 dataset_ctree<-ctree(myFormula, data=train_data)
 table(predict(dataset_ctree), train_data$target)
 ```
+The shown matrix based on training data.
 ######Tree based on information gain:
 ```{r}
 print(dataset_ctree)
 plot(dataset_ctree)
 plot(dataset_ctree,type="simple")
 ```
+We applied two decision tree representations which are regular and simple tree.The result shows that Chest pain type (cp) had the highest information gain value so it was represented in first level (root). 
 
 ######Prediction on test data and Confusion matrix:
 ```{r}
@@ -575,6 +577,7 @@ testPred<- predict(dataset_ctree,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target)
 print(results)
 ```
+The above matrix is based on applying our model on test data.
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
@@ -590,12 +593,14 @@ print(results)
 C45Fit <- J48(target~.,data=train_data)
 table(predict(C45Fit), train_data$target)
 ```
+The shown matrix based on training data.
 ######Tree based on Gain ratio:
 ```{r}
 print(C45Fit)
 plot(C45Fit)
 plot(C45Fit,type="simple")
 ```
+We applied two decision tree representations which are regular and simple tree.The result shows A blood disorder (thal) had the highest gain ratio value so it was represented in first level (root). 
 
 ######Prediction on test data and Confusion matrix:
 ```{r}
@@ -603,15 +608,15 @@ testPred<- predict(C45Fit,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target)
 print(results)
 ```
-
+The above matrix is based on applying our model on test data.
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
-|Accuracy|   |
-|Error Rate|  |
-|Sensitivity(Recall)|  |
-|Specificity|  |
-|Precision|  |
+|Accuracy|76.19%|
+|Error Rate|23.81%|
+|Sensitivity(Recall)|75%|
+|Specificity|77.08%|
+|Precision|80.43%|
 
 #####Gini index
 ```{r}
@@ -622,6 +627,7 @@ fit.tree=rpart(target~., data=train_data, method="class",cp=0.008)
 print(fit.tree)
 rpart.plot(fit.tree)
 ```
+We applied decision tree representation.The result shows that A blood disorder (thal) had the highest ΔGini (impurity reduction) value so it was represented in first level (root). 
 
 ######Prediction on test data and Confusion matrix:
 ```{r}
@@ -629,14 +635,15 @@ testPred<- predict(fit.tree,newdata=test_data,type="class")
 results<- confusionMatrix(testPred,test_data$target)
 print(results)
 ```
+The above matrix is based on applying our model on test data.
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
-|Accuracy|   |
-|Error Rate|  |
-|Sensitivity(Recall)|  |
-|Specificity|  |
-|Precision|  |
+|Accuracy|76.19%|
+|Error Rate|23.81%|
+|Sensitivity(Recall)|77.78%|
+|Specificity|75%|
+|Precision|%|
 
 ####Partitioning num.2 
 We partition the data the data into (75% training, 25% testing). This result in 233 row in the training set and 69 row in the testing set.
@@ -654,12 +661,14 @@ myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang
 dataset_ctree<-ctree(myFormula, data=train_data)
 table(predict(dataset_ctree), train_data$target)
 ```
+The shown matrix based on training data.
 ######Tree based on information gain:
 ```{r}
 print(dataset_ctree)
 plot(dataset_ctree)
 plot(dataset_ctree,type="simple")
 ```
+We applied two decision tree representations which are regular and simple tree.The result shows Number of major vessels (ca) had the highest information gain value so it was represented in first level (root).
 
 ######Prediction on test data and Confusion matrix:
 ```{r}
@@ -667,6 +676,7 @@ testPred<- predict(dataset_ctree,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target)
 print(results)
 ```
+The above matrix is based on applying our model on test data.
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
@@ -674,7 +684,7 @@ print(results)
 |Error Rate|20.29%|
 |Sensitivity(Recall)|75%|
 |Specificity|82.93%|
-|Precision|82.29%|
+|Precision|82.92%|
 
 #####Gain ratio:
 ```{r}
