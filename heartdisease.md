@@ -886,7 +886,7 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
              palette = "jco", ggtheme = theme_classic())
 ```
 
-#Average silhouette
+####Average silhouette
 ```{r}
 sil <- silhouette(km$cluster, dist(dataset)) 
 rownames(sil) <- rownames(dataset)
