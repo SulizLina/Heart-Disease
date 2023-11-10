@@ -495,18 +495,18 @@ dataset$age=factor(dataset$age,levels=c("Children","Young Adults","Middle-aged A
 
 ###Chi-square for nominal data:
 
-|         Attribute name                   | Chi-square value              |              
-|------------------------------------------|----------------------------------|
-| A blood disorder (thal)     | 83.978                  |
-| Chest pain type (cp)                     | 80.979      | 
-| Number of major vessels (ca)| 73.689           |
-| Exercise induced anginal (exang)        | 55.456               |
-|The slope of the peak exercise ST segment (slope)| 46.889              |
-| Sex                                      | 23.084       | 
-|Resting blood pressure (trestbps)|  9.8824    |
-| Resting electrocardiographic result (restecg)| 9.7297                    |                                    
-|Age(after discretization)| 8.7992          
-| Fasting blood sugar (fbs)                | 0.092408                    |                                           
+|  Attribute name | Chi-square value|Degree of freedom|Alpa              
+|-----------------|-----------------|
+| A blood disorder (thal) | 83.978|2|2.2e-16|
+| Chest pain type (cp)    | 80.979  |3| 2.2e-16| 
+| Number of major vessels (ca)| 73.689 |3|6.919e-16|
+| Exercise induced anginal (exang)| 55.456 |1|9.556e-14|
+|The slope of the peak exercise ST segment (slope)| 46.889|2|6.578e-11|
+| Sex            | 23.084       | 1| 1.551e-06|
+|Resting blood pressure (trestbps)|  9.8824 |4|0.04246|
+| Resting electrocardiographic result (restecg)| 9.7297 |2|0.007713|     
+|Age(after discretization)| 8.7992  |2|0.01228|      
+| Fasting blood sugar (fbs)    | 0.092408               | 1|0.7611|                                     
 
 ####Sex:
 
