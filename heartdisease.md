@@ -1185,15 +1185,11 @@ cat("BCubed Recall:", recall, "\n")
 fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
 ```
 
+
+
 |                                          | k=2(Best)                        | k=3                                     | k=4                                                   |
 |------------------------------------------|----------------------------------|-----------------------------------------|-------------------------------------------------------|
-| Average Silhouette width for each cluter | cluter1=0.53,
-cluter2=0.53       | cluter1=0.46,
-cluter2=0.53,
-cluter3=0.43 | cluter1=0.39,
-cluter2=0.39,
-cluter3=0.47 ,
-cluter4=0.37 |
+| Average Silhouette width for each cluter | cluter1=0.53,cluter2=0.53       | cluter1=0.46,cluter2=0.53,cluter3=0.43 | cluter1=0.39,cluter2=0.39,cluter3=0.47 ,cluter4=0.37 |
 | Average Silhouette width for all cluters | 0.53                             | 0.47                                    | 0.4                                                   |
 | total within-cluster sum of square       | ##Not sure                       |                                         |                                                       |
 | BCubed (precision)                       | 0.5347233                        | 0.5250096                               | 0.5502816                                             |
