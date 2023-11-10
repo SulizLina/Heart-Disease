@@ -889,7 +889,11 @@ print(results)
 
 ###Findings:
 
-###Clustering: Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters). In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall). ####Removing the class label(target) before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
+###Clustering: 
+
+Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters). In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall). 
+
+####Removing the class label(target) before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
 
 ```{r}
 dataBeforC<-dataset #in case we need the old dataset(with the class label)
@@ -958,6 +962,12 @@ rownames(sil) <- rownames(dataset)
 ```{r}
 fviz_silhouette(sil)
 ```
+```{r}
+#total within-cluster-sum of square
+twss <- sum(km$withinss)
+print(twss)
+```
+
 
 #### Total sum of squares
 
