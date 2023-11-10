@@ -1099,6 +1099,13 @@ cat("BCubed Recall:", recall, "\n")
 ```{r}
 fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
 ```
+|               |k=2|k=3|k=4|
+|-----------------|-----|-----|-----|
+|Average Silhouette width|   |
+|total within-cluster sum of square|  |
+|BCubed (precision)|  |
+|BCubed (recall)|  |
+|Visualization|  |
 ======= ###Findings: >>>>>>> 68fd5bf5e5aecfae7655fbf1c8ba0968a961f194
 
 
