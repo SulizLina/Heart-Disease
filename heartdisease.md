@@ -937,6 +937,13 @@ library(NbClust)
 library(cluster)
 ```
 
+
+####Optimal number of clusters
+```{r}
+fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
+```
+
+
 ####calculate k-mean k=2
 ```{r}
 km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) 
@@ -1179,20 +1186,21 @@ cat("BCubed Precision:", precision, "\n")
 cat("BCubed Recall:", recall, "\n")
 ```
 
-####Optimal number of clusters
-```{r}
-fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
-```
-
 
 
 |                                          | k=2(Best)                        | k=3                                     | k=4                                                   |
 |------------------------------------------|----------------------------------|-----------------------------------------|-------------------------------------------------------|
 | Average Silhouette width for each cluter | cluter1=0.53,cluter2=0.53       | cluter1=0.46,cluter2=0.53,cluter3=0.43 | cluter1=0.39,cluter2=0.39,cluter3=0.47 ,cluter4=0.37 |
 | Average Silhouette width for all cluters | 0.53                             | 0.47                                    | 0.4                                                   |
-| total within-cluster sum of square       | ##Not sure                       |                                         |                                                       |
+| Total within-cluster sum of square       | ##Not sure                       |                                         |                                                       |
 | BCubed (precision)                       | 0.5347233                        | 0.5250096                               | 0.5502816                                             |
 | BCubed (recall)                          | 0.5523007                        | 0.3668491                               | 0.2854758                                             |
 | Visualization                            | all of the figures is shown above | all of the figures is shown above       |    all of the figures is shown above               |
 
 ======= ###Findings: \>\>\>\>\>\>\> 68fd5bf5e5aecfae7655fbf1c8ba0968a961f194
+
+For Clustering, We utilized the K-means method with three different K to discover the optimal number of clusters, estimated the average silhouette width for each K ,total within-cluster sum of square,precision and recall , and came to the following conclusions:
+• Number of cluster(K)= 2, the average silhouette width=0.53 ,total within-cluster sum of square= ,precision= 0.5347233,recall=0.5523007
+• Number of cluster(K)= 3, the average silhouette width=0.47 ,total within-cluster sum of square= ,precision=0.5250096,recall=0.3668491
+• Number of cluster(K)= 4, the average silhouette width=0.4 ,total within-cluster sum of square= ,precision=0.5502816,recall=0.2854758
+The 2-Mean clustering model is considered optimal because it exhibits the highest average silhouette width, indicating that objects within the same cluster are closely grouped together while being as far away as possible from objects in other clusters. Furthermore, when comparing the figures, it is evident that the 2-Mean clustering model demonstrates the least amount of overlap between clusters compared to the other models.
