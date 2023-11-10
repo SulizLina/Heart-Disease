@@ -580,7 +580,8 @@ print(ctrestbps)
 
 ###Chi-square Results: We will sort the Chi-square values from the highest to the lowest:
 1) A blood disorder (thal) with value 83.978. 
-2) Chest pain type (cp) with value 80.979. 3) Number of major vessels (ca) with value 73.69.
+2) Chest pain type (cp) with value 80.979.
+3) Number of major vessels (ca) with value 73.69.
 4) Exercise induced anginal (exang) with value 55.456.
 5) The slope of the peak exercise ST segment (slope) with value 46.889.
 6) Sex with value 23.084.
