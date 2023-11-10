@@ -861,9 +861,13 @@ here is a simple representation to our structure after converting all data into 
 ```{r}
 str(dataset)
 ```
+
 ```{r}
 install.packages("factoextra")
 library(factoextra)
+```
+
+```{r}
 library(NbClust)
 library(cluster)
 ```
@@ -961,12 +965,10 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
 ```
 
 #avg silhouette
-```{r}
-library(cluster)
-```
 
 ```{r}
-sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+sil <- silhouette(km$cluster, dist(dataset))
+rownames(sil) <- rownames(dataset)
 ```
 
 ```{r}
@@ -1038,7 +1040,8 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
 #avg silhouette  
 
 ```{r}
-sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+sil <- silhouette(km$cluster, dist(dataset))
+rownames(sil) <- rownames(dataset)
 ```
 
 ```{r}
@@ -1099,13 +1102,13 @@ cat("BCubed Recall:", recall, "\n")
 ```{r}
 fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
 ```
-|               |k=2|k=3|k=4|
+|               |k=2(Best)|k=3|k=4|
 |-----------------|-----|-----|-----|
-|Average Silhouette width|   |
-|total within-cluster sum of square|  |
-|BCubed (precision)|  |
-|BCubed (recall)|  |
-|Visualization|  |
+|Average Silhouette width| 0.53 | 0.47 | 0.4  |
+|total within-cluster sum of square| ##Not sure |
+|BCubed (precision)| 0.5347233  | 0.5250096   | 0.5502816   |
+|BCubed (recall)| 0.5523007  | 0.3668491   | 0.2854758    |
+|Visualization| all of the figers is shown above |
 ======= ###Findings: >>>>>>> 68fd5bf5e5aecfae7655fbf1c8ba0968a961f194
 
 
