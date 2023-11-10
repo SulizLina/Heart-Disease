@@ -495,8 +495,8 @@ dataset$age=factor(dataset$age,levels=c("Children","Young Adults","Middle-aged A
 
 ###Chi-square for nominal data:
 
-|  Attribute name | Chi-square value|Degree of freedom|Alpa              
-|-----------------|-----------------|
+|  Attribute name | Chi-square value|Degree of freedom|Alpa|             
+|-----------------|-----------------|-----------------|-----------------|
 | A blood disorder (thal) | 83.978|2|2.2e-16|
 | Chest pain type (cp)    | 80.979  |3| 2.2e-16| 
 | Number of major vessels (ca)| 73.689 |3|6.919e-16|
