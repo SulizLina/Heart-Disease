@@ -356,6 +356,10 @@ print(trestbpsdis)
 ```
 ####Age:
 ```{r}
+AgeBeforeDis <- dataset$age
+```
+
+```{r}
 dataset$age <- ifelse(dataset$age <= 16, "Children",
                       ifelse(dataset$age <= 39, "Young Adults",
                                  ifelse(dataset$age <= 59, "Middle-aged Adults",
@@ -822,8 +826,8 @@ print(results)
 
 
 ###Findings:
-
- باقي ما غيرتي كود الدس فوق زي ماقالت ريم وبعد فيه كود البي كيوبد سويتيه على واحد بس سويه على الباقي و كود السكويرز(الكوع) سويه لهم كلهم الظاهر اني ماحطيته 
+ 
+ there is a problem in the sli
 ###Clustering:
 Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters).
 In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall).
@@ -833,6 +837,12 @@ before we partition our data we have to remove the class label(target) since the
 dataBeforC<-dataset #in case we need the old dataset(with the class label)
 dataset <- dataset[, -which(names(dataset) == "target")]
 ```
+
+since we applied discretization to the age we can’t deal with factors during the clustering process insted we are going to retrieve the old values before discretization.
+```{r}
+dataset$age <- AgeBeforeDis
+```
+
 
 ####Converting interger columns too numeric  مدري وش المفروض اكتب كلام هنا
 ```{r}
@@ -845,22 +855,29 @@ dataset$exang <- as.numeric(dataset$exang)
 dataset$slope <- as.numeric(dataset$slope)
 dataset$ca <- as.numeric(dataset$ca) 
 dataset$thal <- as.numeric(dataset$thal)
+dataset$age <- as.numeric(dataset$age)
 ```
 
 here is a simple representation to our structure after converting all data into numeric 
 ```{r}
 str(dataset)
 ```
+```{r}
+install.packages("factoextra")
+library(factoextra)
+```
+
 
 #####cluster k=2 ####calculate k-mean k=2
 ```{r}
-km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) 
+km
 ```
 
 #plot k-mean
 ```{r}
-fviz_cluster(list(data = dataset, cluster = km$cluster),
-             ellipse.type = "norm", geom = "point", stand = FALSE,      
+fviz_cluster(list(data = dataset, cluster = km$cluster),        
+             ellipse.type = "norm", geom = "point", stand = FALSE,          
              palette = "jco", ggtheme = theme_classic())
 ```
 
@@ -934,12 +951,15 @@ cat("BCubed Recall:", recall, "\n")
 
 ####calculate k-mean k=3
 ```{r}
-km <- kmeans(dataset, 3, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+km <- kmeans(dataset, 3, iter.max = 140 , algorithm="Lloyd", nstart=100) 
+km
 ```
 
 #plot k-mean
 ```{r}
-fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic())
+fviz_cluster(list(data = dataset, cluster = km$cluster),            
+             ellipse.type = "norm", geom = "point", stand = FALSE,     
+             palette = "jco", ggtheme = theme_classic())
 ```
 
 #avg silhouette
@@ -1006,18 +1026,18 @@ cat("BCubed Recall:", recall, "\n")
 ```
 ####calculate k-mean k=4
 ```{r}
-km <- kmeans(dataset, 4, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+km <- kmeans(dataset, 4, iter.max = 140 , algorithm="Lloyd", nstart=100) 
+km
 ```
 
 #plot k-mean
 ```{r}
-fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic()) 
+fviz_cluster(list(data = dataset, cluster = km$cluster),            
+             ellipse.type = "norm", geom = "point", stand = FALSE,         
+             palette = "jco", ggtheme = theme_classic()) 
 ```
 
 #avg silhouette  
-```{r}
-library(cluster)
-```
 
 ```{r}
 sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
