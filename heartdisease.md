@@ -187,7 +187,7 @@ txt <- paste0(names(tab), '\n', percentages, '%')
 pie(tab, labels = txt, main="percentage of the target")
 ```
 
-The pie chart help us to know the percentage of the people in our data set who might be targeted by heart diseases. More than half of the people (represented by 54.3%) has high potentials of getting infected. In other side less than half of the people (represented by 45.7%) has low potentials of getting infected.
+The pie chart help us to know the percentage of the people in our data set who might be targeted by heart diseases. More than half of the people (represented by 54.3%) has high potentials of getting infected. In other side less than half of the people (represented by 45.7%) has low potentials of getting infected.Our data considered unbalanced data since there is 8.6% difference between the two values that the class label can take. 
 
 ####Graph between the sex and the target.
 
