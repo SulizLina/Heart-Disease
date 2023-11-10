@@ -937,8 +937,7 @@ library(NbClust)
 library(cluster)
 ```
 
-#####cluster k=2 ####calculate k-mean k=2
-
+####calculate k-mean k=2
 ```{r}
 km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) 
 km
