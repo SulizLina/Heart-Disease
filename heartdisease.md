@@ -501,7 +501,6 @@ dataset$age=factor(dataset$age,levels=c("Children","Young Adults","Middle-aged A
 | Chest pain type (cp)                     | 80.979      | 
 | Number of major vessels (ca)| 73.689           |
 | Exercise induced anginal (exang)        | 55.456               |
-
 |The slope of the peak exercise ST segment (slope)| 46.889              |
 | Sex                                      | 23.084       | 
 |Resting blood pressure (trestbps)|  9.8824    |
