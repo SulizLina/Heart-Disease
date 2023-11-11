@@ -421,6 +421,20 @@ We will find the correlation between each attributes and the class label (target
 
 ###Chi-square for nominal data:
 
+|  Attribute name | Chi-square value|Degree of freedom|Alpa|             
+  |-----------------|-----------------|-----------------|-----------------|
+  | A blood disorder (thal) | 83.978|2|2.2e-16|
+  | Chest pain type (cp)    | 80.979  |3| 2.2e-16| 
+  | Number of major vessels (ca)| 73.689 |3|6.919e-16|
+  | Exercise induced anginal (exang)| 55.456 |1|9.556e-14|
+  |The slope of the peak exercise ST segment (slope)| 46.889|2|6.578e-11|
+  | Sex            | 23.084       | 1| 1.551e-06|
+  |Resting blood pressure (trestbps)|  9.8824 |4|0.04246|
+  | Resting electrocardiographic result (restecg)| 9.7297 |2|0.007713|     
+  |Age(after discretization)| 8.7992  |2|0.01228|      
+  | Fasting blood sugar (fbs)    | 0.092408               | 1|0.7611|                                     
+  
+
 ####Sex:
 ```{r}
 csex=chisq.test(dataset$sex , dataset$target)
@@ -839,111 +853,321 @@ print(results)
 ###Findings:
 
 
-###Clustering  ###نحط اعلى اربععه عندنا من FS <- هونت لا تحذفين  <<<<<<< HEAD 
+###Clustering: 
+
+Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters). In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall). 
+
+####Removing the class label(target) before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
+
 ```{r}
-classlabel<-dataset$target dataset <- dataset[, -which(names(dataset) == "target")] head(dataset)
+dataBeforC<-dataset #in case we need the old data set(with the class label)
+dataset <- dataset[, -which(names(dataset) == "target")]
 ```
 
-####Converting interger&factor columns too numeric  
+since we applied discretization to the age we can't deal with factors during the clustering process insted we are going to retrieve the old values before discretization.
+
 ```{r}
-dataset$sex <- as.numeric(dataset$sex ) dataset$cp <- as.numeric(dataset$cp ) dataset$trestbps <- as.numeric(dataset$trestbps  ) dataset$restecg <- as.numeric(dataset$restecg ) dataset$thalach <- as.numeric(dataset$thalach) dataset$exang <- as.numeric(dataset$exang) dataset$slope <- as.numeric(dataset$slope) dataset$ca <- as.numeric(dataset$ca) dataset$thal <- as.numeric(dataset$thal)
+dataset$age <- AgeBeforeDis
 ```
 
-#Let us see the structure again  
+####Converting interger columns to numeric 
+
+```{r}
+dataset$sex <- as.numeric(dataset$sex ) 
+dataset$cp <- as.numeric(dataset$cp )
+dataset$trestbps <- as.numeric(dataset$trestbps  ) 
+dataset$restecg <- as.numeric(dataset$restecg ) 
+dataset$thalach <- as.numeric(dataset$thalach)
+dataset$exang <- as.numeric(dataset$exang) 
+dataset$slope <- as.numeric(dataset$slope)
+dataset$ca <- as.numeric(dataset$ca) 
+dataset$thal <- as.numeric(dataset$thal)
+dataset$age <- as.numeric(dataset$age)
+```
+
+here is a simple representation to our structure after converting all data into numeric
+
 ```{r}
 str(dataset)
 ```
 
-#####cluster k=2 ####calculate k-mean k=2
 ```{r}
-km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+install.packages("factoextra")
+library(factoextra)
 ```
 
-#plot k-mean
 ```{r}
-fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic())
-```
-
-#avg silhouette
-```{r}
+library(NbClust)
 library(cluster)
 ```
 
+
+####Optimal number of clusters
 ```{r}
-sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
+```
+
+
+####calculate k-mean k=2
+```{r}
+km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) 
+km
+```
+
+#plot k-mean
+
+```{r}
+fviz_cluster(list(data = dataset, cluster = km$cluster),        
+             ellipse.type = "norm", geom = "point", stand = FALSE,          
+             palette = "jco", ggtheme = theme_classic())
+```
+
+####Average silhouette
+
+```{r}
+sil <- silhouette(km$cluster, dist(dataset)) 
+rownames(sil) <- rownames(dataset)
 ```
 
 ```{r}
 fviz_silhouette(sil)
 ```
+```{r}
+#total within-cluster-sum of square
+twss <- sum(km$withinss)
+print(twss)
+```
 
-#### Total sum of squares
+
+####Total sum of squares
+
 ```{r}
 km$totss
 ```
 
 ####BCubed precision and recall
+
 ```{r}
-BCubed_metric(km$cluster,classlabel,0.5)
+cluster_assignments <- c(km$cluster)
+ground_truth_labels <- c(dataBeforC$target)
+
+data <- data.frame(cluster = cluster_assignments, label = ground_truth_labels)
+
+# Function to calculate BCubed precision and recall
+calculate_bcubed_metrics <- function(data) {
+  n <- nrow(data)
+  precision_sum <- 0
+  recall_sum <- 0
+
+  for (i in 1:n) {
+    cluster <- data$cluster[i]
+    label <- data$label[i]
+    
+# Count the number of items from the same category within the same cluster
+same_category_same_cluster <- sum(data$label[data$cluster == cluster] == label)
+    
+# Count the total number of items in the same cluster
+total_same_cluster <- sum(data$cluster == cluster)
+    
+# Count the total number of items with the same category
+total_same_category <- sum(data$label == label)
+    
+# Calculate precision and recall for the current item and add them to the sums
+precision_sum <- precision_sum + same_category_same_cluster /total_same_cluster
+recall_sum <- recall_sum + same_category_same_cluster / total_same_category
+  }
+
+  # Calculate average precision and recall
+  precision <- precision_sum / n
+  recall <- recall_sum / n
+
+  return(list(precision = precision, recall = recall))
+}
+
+# Calculate BCubed precision and recall
+metrics <- calculate_bcubed_metrics(data)
+
+# Extract precision and recall from the metrics
+precision <- metrics$precision
+recall <- metrics$recall
+
+# Print the results
+cat("BCubed Precision:", precision, "\n")
+cat("BCubed Recall:", recall, "\n")
 ```
 
 ####calculate k-mean k=3
+
 ```{r}
-km <- kmeans(dataset, 3, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+km <- kmeans(dataset, 3, iter.max = 140 , algorithm="Lloyd", nstart=100) 
+km
 ```
 
 #plot k-mean
-```{r}
-fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic())
-```
-
-#avg silhouette
-```{r}
-library(cluster)
-```
 
 ```{r}
-sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+fviz_cluster(list(data = dataset, cluster = km$cluster),            
+             ellipse.type = "norm", geom = "point", stand = FALSE,     
+             palette = "jco", ggtheme = theme_classic())
+```
+
+####Average silhouette
+
+```{r}
+sil <- silhouette(km$cluster, dist(dataset))
+rownames(sil) <- rownames(dataset)
 ```
 
 ```{r}
 fviz_silhouette(sil)
+```
+
+####BCubed precision and recall
+
+```{r}
+cluster_assignments <- c(km$cluster)
+ground_truth_labels <- c(dataBeforC$target)
+
+data <- data.frame(cluster = cluster_assignments, label = ground_truth_labels)
+
+# Function to calculate BCubed precision and recall
+calculate_bcubed_metrics <- function(data) {
+  n <- nrow(data)
+  precision_sum <- 0
+  recall_sum <- 0
+
+  for (i in 1:n) {
+    cluster <- data$cluster[i]
+    label <- data$label[i]
+    
+# Count the number of items from the same category within the same cluster
+same_category_same_cluster <- sum(data$label[data$cluster == cluster] == label)
+    
+# Count the total number of items in the same cluster
+total_same_cluster <- sum(data$cluster == cluster)
+    
+# Count the total number of items with the same category
+total_same_category <- sum(data$label == label)
+    
+# Calculate precision and recall for the current item and add them to the sums
+precision_sum <- precision_sum + same_category_same_cluster /total_same_cluster
+recall_sum <- recall_sum + same_category_same_cluster / total_same_category
+  }
+
+  # Calculate average precision and recall
+  precision <- precision_sum / n
+  recall <- recall_sum / n
+
+  return(list(precision = precision, recall = recall))
+}
+
+# Calculate BCubed precision and recall
+metrics <- calculate_bcubed_metrics(data)
+
+# Extract precision and recall from the metrics
+precision <- metrics$precision
+recall <- metrics$recall
+
+# Print the results
+cat("BCubed Precision:", precision, "\n")
+cat("BCubed Recall:", recall, "\n")
 ```
 
 ####calculate k-mean k=4
+
 ```{r}
-km <- kmeans(dataset, 4, iter.max = 140 , algorithm="Lloyd", nstart=100) km
+km <- kmeans(dataset, 4, iter.max = 140 , algorithm="Lloyd", nstart=100) 
+km
 ```
 
 #plot k-mean
-```{r}
-fviz_cluster(list(data = dataset, cluster = km$cluster),              ellipse.type = "norm", geom = "point", stand = FALSE,              palette = "jco", ggtheme = theme_classic()) 
-```
-
-#avg silhouette  
-```{r}
-library(cluster)
-```
 
 ```{r}
-sil <- silhouette(km$cluster, dist(dataset)) rownames(sil) <- rownames(dataset)
+fviz_cluster(list(data = dataset, cluster = km$cluster),            
+             ellipse.type = "norm", geom = "point", stand = FALSE,         
+             palette = "jco", ggtheme = theme_classic()) 
+```
+
+####Average silhouette
+
+```{r}
+sil <- silhouette(km$cluster, dist(dataset))
+rownames(sil) <- rownames(dataset)
 ```
 
 ```{r}
 fviz_silhouette(sil)
 ```
 
+####BCubed precision and recall
+
 ```{r}
-library(NbClust)
+cluster_assignments <- c(km$cluster)
+ground_truth_labels <- c(dataBeforC$target)
+
+data <- data.frame(cluster = cluster_assignments, label = ground_truth_labels)
+
+#Function to calculate BCubed precision and recall
+calculate_bcubed_metrics <- function(data) {
+  n <- nrow(data)
+  precision_sum <- 0
+  recall_sum <- 0
+
+  for (i in 1:n) {
+    cluster <- data$cluster[i]
+    label <- data$label[i]
+    
+#Count the number of items from the same category within the same cluster
+same_category_same_cluster <- sum(data$label[data$cluster == cluster] == label)
+    
+#Count the total number of items in the same cluster
+total_same_cluster <- sum(data$cluster == cluster)
+    
+#Count the total number of items with the same category
+total_same_category <- sum(data$label == label)
+    
+#Calculate precision and recall for the current item and add them to the sums
+precision_sum <- precision_sum + same_category_same_cluster /total_same_cluster
+recall_sum <- recall_sum + same_category_same_cluster / total_same_category
+  }
+
+  #Calculate average precision and recall
+  precision <- precision_sum / n
+  recall <- recall_sum / n
+
+  return(list(precision = precision, recall = recall))
+}
+
+#Calculate BCubed precision and recall
+metrics <- calculate_bcubed_metrics(data)
+
+# Extract precision and recall from the metrics
+precision <- metrics$precision
+recall <- metrics$recall
+
+#Print the results
+cat("BCubed Precision:", precision, "\n")
+cat("BCubed Recall:", recall, "\n")
 ```
-يعلمني وش احسن واحد 
-```{r}
-fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
-```
-======= ###Findings: >>>>>>> 68fd5bf5e5aecfae7655fbf1c8ba0968a961f194
 
 
 
+|                                          | k=2(Best)                        | k=3                                     | k=4                                                   |
+|------------------------------------------|----------------------------------|-----------------------------------------|-------------------------------------------------------|
+| Average Silhouette width for each cluter | cluter1=0.53,cluter2=0.53       | cluter1=0.46,cluter2=0.53,cluter3=0.43 | cluter1=0.39,cluter2=0.39,cluter3=0.47 ,cluter4=0.37 |
+| Average Silhouette width for all cluters | 0.53                             | 0.47                                    | 0.4                                                   |
+| Total within-cluster sum of square       | ##Not sure                       |                                         |                                                       |
+| BCubed (precision)                       | 0.5347233                        | 0.5250096                               | 0.5502816                                             |
+| BCubed (recall)                          | 0.5523007                        | 0.3668491                               | 0.2854758                                             |
+| Visualization                            | all of the figures is shown above | all of the figures is shown above       |    all of the figures is shown above               |
+
+======= ###Findings: \>\>\>\>\>\>\> 68fd5bf5e5aecfae7655fbf1c8ba0968a961f194
+
+For Clustering, We utilized the K-means method with three different K to discover the optimal number of clusters, estimated the average silhouette width for each K ,total within-cluster sum of square,precision and recall , and came to the following conclusions:
+• Number of cluster(K)= 2, the average silhouette width=0.53 ,total within-cluster sum of square= ,precision= 0.5347233,recall=0.5523007
+• Number of cluster(K)= 3, the average silhouette width=0.47 ,total within-cluster sum of square= ,precision=0.5250096,recall=0.3668491
+• Number of cluster(K)= 4, the average silhouette width=0.4 ,total within-cluster sum of square= ,precision=0.5502816,recall=0.2854758
+The 2-Mean clustering model is considered optimal because it exhibits the highest average silhouette width, indicating that objects within the same cluster are closely grouped together while being as far away as possible from objects in other clusters. Furthermore, when comparing the figures, it is evident that the 2-Mean clustering model demonstrates the least amount of overlap between clusters compared to the other models.
 
 
 
