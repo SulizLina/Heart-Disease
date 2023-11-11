@@ -1023,7 +1023,6 @@ fviz_silhouette(sil)
 ```
 
 ####BCubed precision and recall
-
 ```{r}
 cluster_assignments <- c(km$cluster)
 ground_truth_labels <- c(dataBeforC$target)
@@ -1074,14 +1073,12 @@ cat("BCubed Recall:", recall, "\n")
 ```
 
 ####calculate k-mean k=4
-
 ```{r}
 km <- kmeans(dataset, 4, iter.max = 140 , algorithm="Lloyd", nstart=100) 
 km
 ```
 
 #plot k-mean
-
 ```{r}
 fviz_cluster(list(data = dataset, cluster = km$cluster),            
              ellipse.type = "norm", geom = "point", stand = FALSE,         
@@ -1089,7 +1086,6 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
 ```
 
 ####Average silhouette
-
 ```{r}
 sil <- silhouette(km$cluster, dist(dataset))
 rownames(sil) <- rownames(dataset)
@@ -1100,7 +1096,6 @@ fviz_silhouette(sil)
 ```
 
 ####BCubed precision and recall
-
 ```{r}
 cluster_assignments <- c(km$cluster)
 ground_truth_labels <- c(dataBeforC$target)
