@@ -1022,6 +1022,7 @@ rownames(sil) <- rownames(dataset)
 ```{r}
 fviz_silhouette(sil)
 ```
+The average silhouette width is 0.47. This value indicates that, on average, the data points within the clusters are reasonably well-separated from each other and exhibit some similarity to the points in their neighboring clusters. However, it's important to note that the interpretation of the silhouette width heavily depends on the specific dataset and problem domain. Different datasets may have different standards for what constitutes a good or bad silhouette width.
 
 #Total within-cluster-sum of square
 ```{r}
