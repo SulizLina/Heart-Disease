@@ -934,17 +934,12 @@ rownames(sil) <- rownames(dataset)
 ```{r}
 fviz_silhouette(sil)
 ```
+
+#Total within-cluster-sum of square
 ```{r}
-#total within-cluster-sum of square
-twss <- sum(km$withinss)
-print(twss)
+kmeanResult$tot.withinss
 ```
 
-
-####Total sum of squares
-```{r}
-km$totss
-```
 
 ####BCubed precision and recall
 ```{r}
@@ -1019,6 +1014,11 @@ rownames(sil) <- rownames(dataset)
 fviz_silhouette(sil)
 ```
 
+#Total within-cluster-sum of square
+```{r}
+kmeanResult$tot.withinss
+```
+
 ####BCubed precision and recall
 ```{r}
 cluster_assignments <- c(km$cluster)
@@ -1090,6 +1090,11 @@ rownames(sil) <- rownames(dataset)
 
 ```{r}
 fviz_silhouette(sil)
+```
+
+#Total within-cluster-sum of square
+```{r}
+kmeanResult$tot.withinss
 ```
 
 ####BCubed precision and recall
