@@ -911,6 +911,9 @@ library(cluster)
 fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
 ```
 
+In this graph, the number of clusters is set to 2. The highest point on the graph represents the optimal number of clusters. This corresponds to the number of clusters that yield the highest average silhouette score, indicating the best clustering solution.
+
+It's worth noting that the silhouette score is just one method used to estimate the optimal number of clusters. Other approaches and metrics can also be employed for this purpose.
 
 ####calculate k-mean k=2
 ```{r}
@@ -934,6 +937,8 @@ rownames(sil) <- rownames(dataset)
 ```{r}
 fviz_silhouette(sil)
 ```
+
+The average silhouette width of 0.53 suggests that the data points in a clustering analysis are well-matched to their assigned clusters and the clusters themselves are reasonably separated from each other. A positive average silhouette width indicates that, on average, the data points are well-clustered and have a higher similarity to their own cluster compared to other clusters.
 
 #Total within-cluster-sum of square
 ```{r}
@@ -990,6 +995,10 @@ recall <- metrics$recall
 cat("BCubed Precision:", precision, "\n")
 cat("BCubed Recall:", recall, "\n")
 ```
+
+The Bcubed precision value indicates the percentage of correctly grouped data points in each cluster, with an average of approximately 53.47%. A higher precision value suggests a better ability of the clustering algorithm to assign similar data points to the same cluster while avoiding unrelated ones. On the other hand, the Bcubed recall value represents the percentage of relevant data points captured by the algorithm in each cluster, averaging around 55.23%. Higher recall values indicate the algorithm's ability to include all the relevant data points in each cluster.
+
+In summary, the precision value is slightly lower than the recall value, indicating that the clustering algorithm may include some unrelated data points in a cluster, resulting in a slightly lower precision. However, it's worth noting that the difference between precision and recall is relatively small.
 
 ####calculate k-mean k=3
 ```{r}
