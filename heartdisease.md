@@ -937,7 +937,7 @@ fviz_silhouette(sil)
 
 #Total within-cluster-sum of square
 ```{r}
-kmeanResult$tot.withinss
+km$tot.withinss
 ```
 
 
@@ -1016,7 +1016,7 @@ fviz_silhouette(sil)
 
 #Total within-cluster-sum of square
 ```{r}
-kmeanResult$tot.withinss
+km$tot.withinss
 ```
 
 ####BCubed precision and recall
@@ -1094,7 +1094,7 @@ fviz_silhouette(sil)
 
 #Total within-cluster-sum of square
 ```{r}
-kmeanResult$tot.withinss
+km$tot.withinss
 ```
 
 ####BCubed precision and recall
