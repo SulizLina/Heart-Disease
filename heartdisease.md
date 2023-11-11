@@ -361,6 +361,10 @@ print(trestbpsdis)
 ```
 ####Age:
 ```{r}
+AgeBeforeDis <- dataset$age
+```
+
+```{r}
 dataset$age <- ifelse(dataset$age <= 16, "Children",
                       ifelse(dataset$age <= 39, "Young Adults",
                                  ifelse(dataset$age <= 59, "Middle-aged Adults",
