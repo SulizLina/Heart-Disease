@@ -8,6 +8,10 @@ The goal of collecting a dataset on heart diseases is to gather relevant informa
 
 The aim is to predict whether a person is at risk of having a certain type or level of heart disease based on their vital signals, such as age, sex, blood pressure, and cholesterol levels. The objective is to build a predictive model that accurately categorizes individuals into two groups: those likely to have a future heart disease (labeled as 1) and those unlikely to have a future heart disease (labeled as 0).
 
+### Clustring goal:
+
+The aim is to divide the people into several groups based on their information in the attributes values. The division is based on the similarities and differences between features without knowing a class label.
+
 ### Defect prediction goal:
 
 The objective is to develop a model that can accurately classify individuals into categories based on the presence or absence of a specific heart defect. This can aid in early detection, diagnosis, and treatment planning. Identifying these defects early allows healthcare professionals to intervene promptly and provide appropriate medical interventions.
@@ -121,6 +125,7 @@ var(dataset$oldpeak)
 ```
 
 ###Boxplot:
+We use boxplot to provide us with a quick visual summary by showing graphical representation of the five number summary for each numeric attribute. Also, it help us to know and detect the outliers from graph.
 ####For the Age attribute:
 ```{r}
 boxplot(dataset$age)
