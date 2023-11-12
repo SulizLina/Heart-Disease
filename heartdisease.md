@@ -597,7 +597,7 @@ We applied two decision tree representations which are regular and simple tree.T
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 The above matrix is based on applying our model on test data.
@@ -606,8 +606,8 @@ The above matrix is based on applying our model on test data.
 |-----------------|-----|
 |Accuracy|80.95%|
 |Error Rate|19.05%|
-|Sensitivity(Recall)|66.67%|
-|Specificity|91.67%|
+|Sensitivity(Recall)|91.67%|
+|Specificity|66.67%|
 |Precision|78.57%|
 
 
@@ -628,7 +628,7 @@ We applied two decision tree representations which are regular and simple tree.T
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(C45Fit,newdata=test_data)
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 The above matrix is based on applying our model on test data.
@@ -637,8 +637,8 @@ The above matrix is based on applying our model on test data.
 |-----------------|-----|
 |Accuracy|76.19%|
 |Error Rate|23.81%|
-|Sensitivity(Recall)|75%|
-|Specificity|77.08%|
+|Sensitivity(Recall)|77.08%|
+|Specificity|75%|
 |Precision|80.43%|
 
 #####Gini index
@@ -655,7 +655,7 @@ We applied decision tree representation.The result shows that A blood disorder (
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(fit.tree,newdata=test_data,type="class")
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 The above matrix is based on applying our model on test data.
@@ -664,9 +664,9 @@ The above matrix is based on applying our model on test data.
 |-----------------|-----|
 |Accuracy|76.19%|
 |Error Rate|23.81%|
-|Sensitivity(Recall)|77.78%|
-|Specificity|75%|
-|Precision|%|
+|Sensitivity(Recall)|75%|
+|Specificity|77.78%|
+|Precision|81.82%|
 
 ####Partitioning num.2 
 We partition the data the data into (75% training, 25% testing). This result in 233 row in the training set and 69 row in the testing set.
@@ -696,7 +696,7 @@ We applied two decision tree representations which are regular and simple tree.T
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 The above matrix is based on applying our model on test data.
@@ -705,9 +705,9 @@ The above matrix is based on applying our model on test data.
 |-----------------|-----|
 |Accuracy|79.71%|
 |Error Rate|20.29%|
-|Sensitivity(Recall)|75%|
-|Specificity|82.93%|
-|Precision|82.92%|
+|Sensitivity(Recall)|82.93%|
+|Specificity|75%|
+|Precision|82.93%|
 
 #####Gain ratio:
 ```{r}
@@ -724,18 +724,18 @@ plot(C45Fit,type="simple")
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(C45Fit,newdata=test_data)
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
-|Accuracy|80.95%|
-|Error Rate|19.05%|
-|Sensitivity(Recall)|66.67%|
-|Specificity|91.67%|
-|Precision|78.57%|
+|Accuracy|79.71%|
+|Error Rate|20.29%|
+|Sensitivity(Recall)|85.37%|
+|Specificity|71.43%|
+|Precision|81.40%|
 
 #####Gini index:
 ```{r}
@@ -750,17 +750,17 @@ rpart.plot(fit.tree)
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(fit.tree,newdata=test_data,type="class")
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
-|Accuracy|   |
-|Error Rate|  |
-|Sensitivity(Recall)|  |
-|Specificity|  |
-|Precision|  |
+|Accuracy|73.91%|
+|Error Rate|26.09%|
+|Sensitivity(Recall)|73.17%|
+|Specificity|75%|
+|Precision|81.08%|
 
 
 ####Partitioning num.3 the data into 
@@ -789,7 +789,7 @@ plot(dataset_ctree,type="simple")
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 ####Schedule for classification Evaluation:
@@ -797,8 +797,8 @@ print(results)
 |-----------------|-----|
 |Accuracy|83.02%|
 |Error Rate|16.98%|
-|Sensitivity(Recall)|75%|
-|Specificity|89.66%|
+|Sensitivity(Recall)|89.66%|
+|Specificity|75%|
 |Precision|81.25%|
 
 #####Gain ratio:
@@ -816,17 +816,17 @@ plot(C45Fit,type="simple")
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(C45Fit,newdata=test_data)
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
-|Accuracy|80.95%|
-|Error Rate|19.05%|
-|Sensitivity(Recall)|66.67%|
-|Specificity|91.67%|
-|Precision|78.57%|
+|Accuracy|79.25%|
+|Error Rate|20.75%|
+|Sensitivity(Recall)|82.76%|
+|Specificity|75%|
+|Precision|80%|
 
 #####Gini index
 ```{r}
@@ -841,17 +841,17 @@ rpart.plot(fit.tree)
 ######Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(fit.tree,newdata=test_data,type="class")
-results<- confusionMatrix(testPred,test_data$target)
+results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 ####Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
-|Accuracy|   |
-|Error Rate|  |
-|Sensitivity(Recall)|  |
-|Specificity|  |
-|Precision|  |
+|Accuracy|75.47%|
+|Error Rate|24.53%|
+|Sensitivity(Recall)|75.86%|
+|Specificity|75%|
+|Precision|78.57%|
 
 
 ###Findings:
