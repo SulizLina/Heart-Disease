@@ -927,7 +927,7 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
              ellipse.type = "norm", geom = "point", stand = FALSE,          
              palette = "jco", ggtheme = theme_classic())
 ```
-
+The better the clusters are separated from each other, the more optimal the value of K is. If the value of K is 2, there will be some overlap between certain values.
 ####Average silhouette
 ```{r}
 sil <- silhouette(km$cluster, dist(dataset)) 
@@ -1079,6 +1079,8 @@ cat("BCubed Precision:", precision, "\n")
 cat("BCubed Recall:", recall, "\n")
 ```
 
+The Bcubed precision value of 0.5250096 suggests that approximately 52.5% of the items within each cluster are correctly assigned to the same cluster as other similar items. This indicates that the clustering algorithm has some success in grouping similar items together.  The Bcubed recall value of 0.3668491 indicates that around 36.7% of the items that should belong to the same cluster are indeed assigned to that cluster. This means that the algorithm is capturing only a fraction of the items that should be grouped together.
+
 ####calculate k-mean k=4
 ```{r}
 km <- kmeans(dataset, 4, iter.max = 140 , algorithm="Lloyd", nstart=100) 
@@ -1101,12 +1103,15 @@ rownames(sil) <- rownames(dataset)
 ```{r}
 fviz_silhouette(sil)
 ```
-
+the average silhouette width is 0.4, it suggests that, on average, the data points are reasonably well-clustered. This means that the data points within each cluster have a moderate level of separation from data points in other clusters.
 #Total within-cluster-sum of square
 ```{r}
 km$tot.withinss
 ```
+The closer the points in a cluster are to the centroid, the better. A smaller distance indicates that the points are closer to the centroid, which is desirable. On the other hand, a larger distance signifies that the points are farther away from the centroid, which is less desirable.
 
+Hence, the best choice for the K-means algorithm is the one that minimizes the distance between the points and the centroid, resulting in compact and well-separated clusters.
+In this case the best k-means is 3655.556
 ####BCubed precision and recall
 ```{r}
 cluster_assignments <- c(km$cluster)
@@ -1156,14 +1161,14 @@ recall <- metrics$recall
 cat("BCubed Precision:", precision, "\n")
 cat("BCubed Recall:", recall, "\n")
 ```
-
+A precision of 0.5502816 suggests that approximately 55.0% of the items within the clusters are correctly assigned to the same cluster as other similar items. This indicates a moderate level of precision in the clustering results.  A recall of 0.2854758 suggests that approximately 28.5% of the items that should be grouped together are correctly assigned to the same cluster. This indicates that the clustering algorithm captures only a fraction of the items that should belong to the same clusters
 
 
 |                                          | k=2(Best)                        | k=3                                     | k=4                                                   |
 |------------------------------------------|----------------------------------|-----------------------------------------|-------------------------------------------------------|
 | Average Silhouette width for each cluter | cluter1=0.53,cluter2=0.53       | cluter1=0.46,cluter2=0.53,cluter3=0.43 | cluter1=0.39,cluter2=0.39,cluter3=0.47 ,cluter4=0.37 |
 | Average Silhouette width for all cluters | 0.53                             | 0.47                                    | 0.4                                                   |
-| Total within-cluster sum of square       | ##Not sure                       |                                         |                                                       |
+| Total within-cluster sum of square       | 9211.418                          |      5059.114                                   |  3655.556                                                     |
 | BCubed (precision)                       | 0.5347233                        | 0.5250096                               | 0.5502816                                             |
 | BCubed (recall)                          | 0.5523007                        | 0.3668491                               | 0.2854758                                             |
 | Visualization                            | all of the figures is shown above | all of the figures is shown above       |    all of the figures is shown above               |
