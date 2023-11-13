@@ -856,12 +856,12 @@ print(results)
 
 ###Findings:
 
-
-###Clustering: 
+كلام على رسمه الكلستر و نهايه
+### Clustering: 
 
 Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters). In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall). 
 
-####Removing the class label(target) before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
+#### Removing the class label(target) before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
 
 ```{r}
 dataBeforC<-dataset #in case we need the old data set(with the class label)
@@ -874,7 +874,7 @@ since we applied discretization to the age we can't deal with factors during the
 dataset$age <- AgeBeforeDis
 ```
 
-####Converting interger columns to numeric 
+#### Converting interger columns to numeric 
 
 ```{r}
 dataset$sex <- as.numeric(dataset$sex ) 
@@ -906,7 +906,7 @@ library(cluster)
 ```
 
 
-####Optimal number of clusters
+#### Optimal number of clusters
 ```{r}
 fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
 ```
@@ -915,13 +915,13 @@ In this graph, the number of clusters is set to 2. The highest point on the grap
 
 It's worth noting that the silhouette score is just one method used to estimate the optimal number of clusters. Other approaches and metrics can also be employed for this purpose.
 
-####calculate k-mean k=2
+#### calculate k-mean k=2
 ```{r}
 km <- kmeans(dataset, 2, iter.max = 140 , algorithm="Lloyd", nstart=100) 
 km
 ```
 
-#plot k-mean
+#### plot k-mean
 ```{r}
 fviz_cluster(list(data = dataset, cluster = km$cluster),        
              ellipse.type = "norm", geom = "point", stand = FALSE,          
@@ -940,13 +940,13 @@ fviz_silhouette(sil)
 
 The average silhouette width of 0.53 suggests that the data points in a clustering analysis are well-matched to their assigned clusters and the clusters themselves are reasonably separated from each other. A positive average silhouette width indicates that, on average, the data points are well-clustered and have a higher similarity to their own cluster compared to other clusters.
 
-#Total within-cluster-sum of square
+#### Total within-cluster-sum of square
 ```{r}
 km$tot.withinss
 ```
 
 
-####BCubed precision and recall
+#### BCubed precision and recall
 ```{r}
 cluster_assignments <- c(km$cluster)
 ground_truth_labels <- c(dataBeforC$target)
@@ -1000,13 +1000,13 @@ The Bcubed precision value indicates the percentage of correctly grouped data po
 
 In summary, the precision value is slightly lower than the recall value, indicating that the clustering algorithm may include some unrelated data points in a cluster, resulting in a slightly lower precision. However, it's worth noting that the difference between precision and recall is relatively small.
 
-####calculate k-mean k=3
+#### calculate k-mean k=3
 ```{r}
 km <- kmeans(dataset, 3, iter.max = 140 , algorithm="Lloyd", nstart=100) 
 km
 ```
 
-#plot k-mean
+# plot k-mean
 ```{r}
 fviz_cluster(list(data = dataset, cluster = km$cluster),            
              ellipse.type = "norm", geom = "point", stand = FALSE,     
