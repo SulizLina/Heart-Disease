@@ -1176,7 +1176,7 @@ A precision of 0.5502816 suggests that approximately 55.0% of the items within t
 
 ### Findings:
 
-As previously mentioned, we used the K-means approach with three different values of K (K=2,3,4) to determine the optimal number of clusters. The average silhouette width, total within-cluster sum of squares, precision, and recall were used to evaluate the the results.  We came at the following findings after studying the data:
+As previously mentioned, we used the K-means approach with three different values of K (K=2,3,4) to determine the optimal number of clusters. The average silhouette width, total within-cluster sum of squares, precision, and recall were used to evaluate the the results.  We came at the following findings after studying the data:
 
 The average silhouette width for K=2 was 0.53, showing that objects within a cluster were closely grouped and distinguishable from objects in other clusters. The overall within-cluster sum of squares was 9211.418, identifying that the variation within the clusters was rather substantial.Precision and recall were 0.5347233 and 0.5523007, respectively.This demonstrates a balanced capability to accurately capture instances within clusters and recognize relevant points. 
 
