@@ -861,14 +861,16 @@ print(results)
 
 Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters). In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall). 
 
-#### Removing the class label(target) before we partition our data we have to remove the class label(target) since the clustering is an unsupervised learning.
+#### Removing the class label(target) before we partition our data 
+
+We have to remove the class label(target) since the clustering is an unsupervised learning.
 
 ```{r}
 dataBeforC<-dataset #in case we need the old data set(with the class label)
 dataset <- dataset[, -which(names(dataset) == "target")]
 ```
 
-since we applied discretization to the age we can't deal with factors during the clustering process insted we are going to retrieve the old values before discretization.
+since we applied discretization to the age we can't deal with factors during the clustering process Instead we are going to retrieve the old values before discretization.
 
 ```{r}
 dataset$age <- AgeBeforeDis
@@ -1104,7 +1106,7 @@ rownames(sil) <- rownames(dataset)
 fviz_silhouette(sil)
 ```
 the average silhouette width is 0.4, it suggests that, on average, the data points are reasonably well-clustered. This means that the data points within each cluster have a moderate level of separation from data points in other clusters.
-#Total within-cluster-sum of square
+#### Total within-cluster-sum of square
 ```{r}
 km$tot.withinss
 ```
@@ -1112,7 +1114,7 @@ The closer the points in a cluster are to the centroid, the better. A smaller di
 
 Hence, the best choice for the K-means algorithm is the one that minimizes the distance between the points and the centroid, resulting in compact and well-separated clusters.
 In this case the best k-means is 3655.556
-####BCubed precision and recall
+#### BCubed precision and recall
 ```{r}
 cluster_assignments <- c(km$cluster)
 ground_truth_labels <- c(dataBeforC$target)
@@ -1168,24 +1170,17 @@ A precision of 0.5502816 suggests that approximately 55.0% of the items within t
 |------------------------------------------|----------------------------------|-----------------------------------------|-------------------------------------------------------|
 | Average Silhouette width for each cluter | cluter1=0.53,cluter2=0.53       | cluter1=0.46,cluter2=0.53,cluter3=0.43 | cluter1=0.39,cluter2=0.39,cluter3=0.47 ,cluter4=0.37 |
 | Average Silhouette width for all cluters | 0.53                             | 0.47                                    | 0.4                                                   |
-| Total within-cluster sum of square       | 9211.418                          |      5059.114                                   |  3655.556                                                     |
+| Total within-cluster sum of square       | 9211.418                        |   5059.114                                   |  3655.556                                                     |
 | BCubed (precision)                       | 0.5347233                        | 0.5250096                               | 0.5502816                                             |
 | BCubed (recall)                          | 0.5523007                        | 0.3668491                               | 0.2854758                                             |
 | Visualization                            | all of the figures is shown above | all of the figures is shown above       |    all of the figures is shown above               |
 
-======= ###Findings: \>\>\>\>\>\>\> 68fd5bf5e5aecfae7655fbf1c8ba0968a961f194
-
-For Clustering, We utilized the K-means method with three different K to discover the optimal number of clusters, estimated the average silhouette width for each K ,total within-cluster sum of square,precision and recall , and came to the following conclusions:
-• Number of cluster(K)= 2, the average silhouette width=0.53 ,total within-cluster sum of square= ,precision= 0.5347233,recall=0.5523007
-• Number of cluster(K)= 3, the average silhouette width=0.47 ,total within-cluster sum of square= ,precision=0.5250096,recall=0.3668491
-• Number of cluster(K)= 4, the average silhouette width=0.4 ,total within-cluster sum of square= ,precision=0.5502816,recall=0.2854758
-The 2-Mean clustering model is considered optimal because it exhibits the highest average silhouette width, indicating that objects within the same cluster are closely grouped together while being as far away as possible from objects in other clusters. Furthermore, when comparing the figures, it is evident that the 2-Mean clustering model demonstrates the least amount of overlap between clusters compared to the other models.
-
-
-
-
-
-
+======= ###Findings:
+We performed clustering using the K-means method with three different values of K to determine the optimal number of clusters. We evaluated the results based on the average silhouette width, total within-cluster sum of squares, precision, and recall. After analyzing the data, we reached the following conclusions:
+For K=2, the average silhouette width was 0.53, indicating that objects within the same cluster were tightly grouped together while being well separated from objects in other clusters. The total within-cluster sum of squares was 9211.418, indicating a relatively high variance within the clusters. The precision and recall values were 0.5347233 and 0.5523007, respectively, suggesting a balanced ability to accurately capture instances within clusters and identify relevant points.
+For K=3, the average silhouette width decreased to 0.47. The total within-cluster sum of squares reduced to 5059.114, indicating lower variance within the clusters compared to K=2. The precision and recall values were 0.5250096 and 0.3668491, respectively, showing a slightly lower ability to accurately capture instances and identify all relevant points.
+For K=4, the average silhouette width further decreased to 0.4. The total within-cluster sum of squares decreased to 3655.556, indicating even lower variance within the clusters compared to K=3. The precision and recall values were 0.5502816 and 0.2854758, respectively, indicating a higher ability to accurately capture instances but a lower ability to identify all relevant points.
+Based on these findings, we consider the 2-Mean clustering model to be optimal. It had the highest average silhouette width, indicating tight and well-separated clusters. Additionally, it exhibited the least overlap between clusters compared to the other models. Although it had higher variance within the clusters, the precision and recall values were relatively balanced, indicating a good ability to accurately capture instances and identify relevant points.
 
 
 
