@@ -261,66 +261,66 @@ boxplot.stats(dataset$thalach)$out
 ```
 From the previous code we notice that we have one outlier but, we will not consider it as an outlier since it's medically acceptable for the maximum heart rate achieved.
 
-####for the ST depression (oldpeak) attributes:
+#### for the ST depression (oldpeak) attributes:
 ```{r}
 boxplot.stats(dataset$oldpeak)$out
 ```
 From the previous code we notice that we have 5 outliers but, we will not consider them as outliers since these values are medically acceptable for the ST depression.
 
-###Handling outliers values:
+### Handling outliers values:
 We have one outlier that we will handle which is in serum cholestoral (chol) attributes with the value 564. Since it's only one value we're going to handle it manually by replacing it with the mean. We extracted the mean value from the summary code.
 ```{r}
 dataset[129,5]=246.5
 ```
-###Detecting wrong values:
+### Detecting wrong values:
 We are going to check if there is any wrong values out of the attributes values range.
 
-####The number of major vessels (ca) attribute:
+#### The number of major vessels (ca) attribute:
 ```{r}
 dataset[dataset$ca != "3" & dataset$ca != "1" & dataset$ca != "2" & dataset$ca != "0",]
 ```
 We noticed that value number 4 is considered as a wrong value. It has been in 4 rows. We will handle it in the following step.
 
-####Sex attribute:
+#### Sex attribute:
 ```{r}
 dataset[dataset$sex != "0" & dataset$sex!= "1",]
 ```
 There's no wrong value in the sex attribute.
 
-####Fasting blood sugar (fbs) attribute:
+#### Fasting blood sugar (fbs) attribute:
 ```{r}
 dataset[dataset$fbs != "0" & dataset$fbs != "1",]
 ```
 There's no wrong value in the fasting blood sugar attribute.
 
-####Resting electrocardiographic results (restecg) attribute:
+#### Resting electrocardiographic results (restecg) attribute:
 ```{r}
 dataset[dataset$restecg != "0" & dataset$restecg != "1" & dataset$restecg != "2" ,]
 ```
 There's no wrong value in the Resting electrocardiographic results attribute.
 
-####Exercise induced angina (exang) attribute:
+#### Exercise induced angina (exang) attribute:
 ```{r}
 dataset[dataset$exang != "0" & dataset$exang != "1",]
 ```
 There's no wrong value in the Exercise induced angina attribute.
 
-####The slope of the peak exercise ST segment (slope) attribute:
+#### The slope of the peak exercise ST segment (slope) attribute:
 ```{r}
 dataset[dataset$slope != "0" & dataset$slope != "1" & dataset$slope != "2" ,]
 ```
 There's no wrong value in the slope of the peak exercise ST segment attribute.
 
-####A blood disorder (thal) attribute:
+#### A blood disorder (thal) attribute:
 ```{r}
 dataset[dataset$thal != "1" & dataset$thal != "2" & dataset$thal != "3" ,]
 ```
 We noticed that value number 0 is considered as a wrong value. It has been in 2 rows. We will handle it in the following step.
 
-####Result for detecting wrong values: 
+#### Result for detecting wrong values: 
 We notice that number of major vessels and blood disorder attributes has wrong values (out of range).These values will be handled by using central tendencies values.
 
-###Handling wrong values:
+### Handling wrong values:
 - The number of major vessels (ca) attribute:
 ```{r}
 getmode <- function(v) {
@@ -344,10 +344,10 @@ dataset[dataset$thal=="0","thal"]<-b
 ```
 We replaced the wrong value with the attribute mode since it's type is nominal.
 
-###Discretization: 
+### Discretization: 
 We will use discretization for resting blood pressure (trestbps) and age attributes which help us to form intervals and each interval has categorical label.
 
-####Resting blood pressure (trestbps):
+#### Resting blood pressure (trestbps):
 ```{r}
 dataset$trestbps <- ifelse(dataset$trestbps <=90, "Low",
                            ifelse(dataset$trestbps <= 120, "Normal",
@@ -359,7 +359,7 @@ dataset$trestbps <- ifelse(dataset$trestbps <=90, "Low",
 trestbpsdis <- dataset$trestbps
 print(trestbpsdis)
 ```
-####Age:
+#### Age:
 ```{r}
 AgeBeforeDis <- dataset$age
 ```
@@ -373,35 +373,35 @@ agedis <- dataset$age
 print(agedis)
 ```
 
-###Normalization: 
+### Normalization: 
 The normalization step will transform the attributes values into smaller range which will help us to provide an equal weight for the attributes.
 We will use min-max normalization for many attributes.
 
-####Call min-max normalize function
+#### Call min-max normalize function
 ```{r}
 min_max_normalize <- function(x) {
   (x - min(x)) / (max(x) - min(x))}
 ```
 
-####Applying normlization function in serum cholestoral (chol):
+#### Applying normlization function in serum cholestoral (chol):
 ```{r}
 dataset$chol <- min_max_normalize(dataset$chol)
 print(dataset$chol)
 ```
-####Applying normlization function in ST depression induced by exercise (oldpeak):
+#### Applying normlization function in ST depression induced by exercise (oldpeak):
 ```{r}
 dataset$oldpeak <- min_max_normalize(dataset$oldpeak)
 print(dataset$oldpeak)
 ```
 
-####Applying normlization function in maximum heart rate achieved (thalach):
+#### Applying normlization function in maximum heart rate achieved (thalach):
 ```{r}
 dataset$thalach <- min_max_normalize(dataset$thalach)
 print(dataset$thalach)
 ```
 
 
-###Encoding:
+### Encoding:
 Most of our attributes values are already encoded in the data set. We will encode the age and resting blood pressure (trestbps).
 
 For example the sex is encoded to 0's and 1's where 0= female and 1= male as a binary type. What's shown below are the values of sex column.
@@ -409,21 +409,21 @@ For example the sex is encoded to 0's and 1's where 0= female and 1= male as a b
 sexencoding <- dataset$sex
 print(sexencoding)
 ```
-####Encoding for resting blood pressure (trestbps):
+#### Encoding for resting blood pressure (trestbps):
 ```{r}
 dataset$trestbps=factor(dataset$trestbps,levels=c("Low","Normal","Elevated","High Stage 1","High Stage 2","High Stage 3"),labels=c(0,1,2,3,4,5))
 ```
 
-####Encoding for age:
+#### Encoding for age:
 ```{r}
 dataset$age=factor(dataset$age,levels=c("Children","Young Adults","Middle-aged Adults","Old Adults"),labels=c(0,1,2,3))
 ```
 
 
-##Correlation Analysis:
+## Correlation Analysis:
 We will find the correlation between each attributes and the class label (target). For the nominal data we will use chi-square and for the numeric data we will use correlation coefficient. This will help us to determine the most important and correlated attributes to the target.
 
-###Chi-square for nominal data:
+### Chi-square for nominal data:
 
 |  Attribute name | Chi-square value|Degree of freedom|Alpa|             
   |-----------------|-----------------|-----------------|-----------------|
@@ -439,27 +439,27 @@ We will find the correlation between each attributes and the class label (target
   | Fasting blood sugar (fbs)    | 0.092408               | 1|0.7611|                                     
   
 
-####Sex:
+#### Sex:
 ```{r}
 csex=chisq.test(dataset$sex , dataset$target)
 print(csex)
 ```
-####Chest pain type (cp):
+#### Chest pain type (cp):
 ```{r}
 ccp=chisq.test(dataset$cp , dataset$target)
 print(ccp)
 ```
-####Fasting blood sugar (fbs):
+#### Fasting blood sugar (fbs):
 ```{r}
 cfbs=chisq.test(dataset$fbs , dataset$target)
 print(cfbs)
 ```
-####Resting electrocardiographic result (restecg):
+#### Resting electrocardiographic result (restecg):
 ```{r}
 crestecg=chisq.test(dataset$restecg , dataset$target)
 print(crestecg)
 ```
-####Exercise induced anginal (exang):
+#### Exercise induced anginal (exang):
 ```{r}
 cexang=chisq.test(dataset$exang , dataset$target)
 print(cexang)
@@ -999,7 +999,6 @@ cat("BCubed Recall:", recall, "\n")
 ```
 
 The Bcubed precision value indicates the percentage of correctly grouped data points in each cluster, with an average of approximately 53.47%. A higher precision value suggests a better ability of the clustering algorithm to assign similar data points to the same cluster while avoiding unrelated ones. On the other hand, the Bcubed recall value represents the percentage of relevant data points captured by the algorithm in each cluster, averaging around 55.23%. Higher recall values indicate the algorithm's ability to include all the relevant data points in each cluster.
-
 In summary, the precision value is slightly lower than the recall value, indicating that the clustering algorithm may include some unrelated data points in a cluster, resulting in a slightly lower precision. However, it's worth noting that the difference between precision and recall is relatively small.
 
 #### calculate k-mean k=3
@@ -1177,15 +1176,13 @@ A precision of 0.5502816 suggests that approximately 55.0% of the items within t
 
 ### Findings:
 
-We performed clustering using the K-means method with three different values of K to determine the optimal number of clusters. We evaluated the results based on the average silhouette width, total within-cluster sum of squares, precision, and recall. After analyzing the data, we reached the following conclusions:
-For K=2, the average silhouette width was 0.53, indicating that objects within the same cluster were tightly grouped together while being well separated from objects in other clusters. The total within-cluster sum of squares was 9211.418, indicating a relatively high variance within the clusters. The precision and recall values were 0.5347233 and 0.5523007, respectively, suggesting a balanced ability to accurately capture instances within clusters and identify relevant points.
-For K=3, the average silhouette width decreased to 0.47. The total within-cluster sum of squares reduced to 5059.114, indicating lower variance within the clusters compared to K=2. The precision and recall values were 0.5250096 and 0.3668491, respectively, showing a slightly lower ability to accurately capture instances and identify all relevant points.
-For K=4, the average silhouette width further decreased to 0.4. The total within-cluster sum of squares decreased to 3655.556, indicating even lower variance within the clusters compared to K=3. The precision and recall values were 0.5502816 and 0.2854758, respectively, indicating a higher ability to accurately capture instances but a lower ability to identify all relevant points.
-Based on these findings, we consider the 2-Mean clustering model to be optimal. It had the highest average silhouette width, indicating tight and well-separated clusters. Additionally, it exhibited the least overlap between clusters compared to the other models. Although it had higher variance within the clusters, the precision and recall values were relatively balanced, indicating a good ability to accurately capture instances and identify relevant points.
+As previously mentioned, we used the K-means approach with three different values of K (K=2,3,4) to determine the optimal number of clusters. The average silhouette width, total within-cluster sum of squares, precision, and recall were used to evaluate the the results.  We came at the following findings after studying the data:
 
+The average silhouette width for K=2 was 0.53, showing that objects within a cluster were closely grouped and distinguishable from objects in other clusters. The overall within-cluster sum of squares was 9211.418, identifying that the variation within the clusters was rather substantial.Precision and recall were 0.5347233 and 0.5523007, respectively.This demonstrates a balanced capability to accurately capture instances within clusters and recognize relevant points. 
 
+The average silhouette width dropped to 0.47 for K=3. The overall within-cluster sum of squares decreased to 5059.114, indicating that there is less diversity within the clusters than when K=2 was used. The accuracy and recall scores were 0.5250096 and 0.3668491, indicating a significantly reduced capacity to collect occurrences and identify all relevant points.
 
+The average silhouette width dropped to 0.4 for K=4. The variance within the clusters is even lower than when K=3, as evidenced by the total within-cluster sum of squares dropping to 3655.556. With precision and recall values of 0.5502816 and 0.2854758, respectively, there was a greater capacity to precisely record instances, but a reduced capacity to recognize every pertinent point.
 
-  
-
+the conclusion of these findings lead us to that the 2-Mean clustering model to be optimal. It had the highest average silhouette width, indicating tight and well-separated clusters. Additionally, it exhibited the least overlap between clusters compared to the other models. Although it had higher variance within the clusters, the precision and recall values were relatively balanced, indicating a good ability to accurately capture instances and identify relevant points.
 
