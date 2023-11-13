@@ -45,7 +45,7 @@ our class label is the target. It is binary type which has value 0= no disease ,
 |ca|The number of major vessels(0-3)colored by flourosopy| Nominal | from 0 to 3|
 |thal|A blood disorder called thalassemia Value|Nominal| from 1 to 3 which 1=normal , 2= fixed defect , 3=reversible defect|
 
-###Importing libraries
+### Importing libraries
 ```{r}
 install.packages("ggplot2")
 library(mlbench)
@@ -97,32 +97,38 @@ nrow(dataset)
 
 ## Statistical measures:
 We will represent the five number summary, the mean and the variance for the numerical attributes. These values will give us an overview about our attributes. Also, it could be useful for smoothing and handling the outliers, missing and wrong values.
-
 #### For the Age attribute:
 ```{r}
 summary(dataset$age)
 var(dataset$age)
 ```
+We notice that our data set patients age range from 29 to 77 years old, which indicate that all of them are middle aged and old adults.
+
 #### For the resting blood pressure (trestbps) attribute:
 ```{r}
 summary(dataset$trestbps)
 var(dataset$trestbps)
 ```
+We notice that our data set patients resting blood pressure range from 94 to 200. 
+
 #### For the serum cholestoral (chol) attribute:
 ```{r}
 summary (dataset$chol)
 var(dataset$chol)
 ```
+We notice that our data set patients serum cholestoral range from 126 to 564.
 #### For the maximum heart rate achieved (thalach) attribute:
 ```{r}
 summary(dataset$thalach)
 var(dataset$thalach)
 ```
+We notice that our data set patients maximum heart rate achieved range from 71 to 202.
 #### For the ST depression (oldpeak) attribute:
 ```{r}
 summary(dataset$oldpeak)
 var(dataset$oldpeak)
 ```
+We notice that our data set patients maximum heart rate achieved range from 0 to 6.2.
 
 ### Boxplot:
 We use boxplot to provide us with a quick visual summary by showing graphical representation of the five number summary for each numeric attribute. Also, it help us to know and detect the outliers from graph.
@@ -227,7 +233,7 @@ ggplot(dataset, aes(x = fbs, fill = as.factor(target))) +
 The chart represent the fasting blood sugar(fbs) (1 means grater than 120 and 0 means less than 120) attribute and our class label (target). From the graph, Either fbs is less or greater than 120 they both have the same percentage of getting infected which is approximately 50% so, we determine that they are not correlated. We will prove that when we apply the correlation coefficient in the preprocessing section.
 
 ### Preprocessing:
-
+In this section, we will apply preprocessing techniques which will help us to clean and remove noise from our data set in order to get better and more accurate results. We will perform some methods, Starting from managing wrong, missing and outliers values then applying discretization, normlization and encoding. Also, perform feature selection and finding the correlation between the attributes.
 
 ### Detecting the missing values: 
 ```{r}
@@ -425,7 +431,7 @@ We will find the correlation between each attributes and the class label (target
 
 ### Chi-square for nominal data:
 
-|  Attribute name | Chi-square value|Degree of freedom|Alpa|             
+  |Attribute name | Chi-square value|Degree of freedom|Alpha|             
   |-----------------|-----------------|-----------------|-----------------|
   | A blood disorder (thal) | 83.978|2|2.2e-16|
   | Chest pain type (cp)    | 80.979  |3| 2.2e-16| 
@@ -464,34 +470,34 @@ print(crestecg)
 cexang=chisq.test(dataset$exang , dataset$target)
 print(cexang)
 ```
-####The slope of the peak exercise ST segment (slope):
+#### The slope of the peak exercise ST segment (slope):
 ```{r}
 cslope=chisq.test(dataset$slope , dataset$target)
 print(cslope)
 ```
-####Number of major vessels (ca):
+#### Number of major vessels (ca):
 ```{r}
 cca=chisq.test(dataset$ca , dataset$target)
 print(cca)
 ```
-####A blood disorder (thal):
+#### A blood disorder (thal):
 ```{r}
 cthal=chisq.test(dataset$thal , dataset$target)
 print(cthal)
 ```
-####Age:
+#### Age:
 The age attribute after discretization.
 ```{r}
 cage= chisq.test(dataset$age, dataset$target)
 print(cage)
 ```
-####Resting blood pressure (trestbps):
+#### Resting blood pressure (trestbps):
 The trestbps attribute after discretization.
 ```{r}
 ctrestbps=chisq.test(dataset$trestbps ,dataset$target)
 print(ctrestbps)
 ```
-###Chi-square Results:
+### Chi-square Results:
 We will sort the Chi-square values from the highest to the lowest:
 1) A blood disorder (thal) with value 83.978.
 2) Chest pain type (cp) with value 80.979.
@@ -507,24 +513,24 @@ We will sort the Chi-square values from the highest to the lowest:
 All of the attributes is dependent to the class lable (target) except Fasting blood sugar(fbs) since the p-value is higher than chi-square value (chi-square = 0.092408 < 0.7611 = p-value).
 
 
-###Correlation coefficient for numeric data:
+### Correlation coefficient for numeric data:
 
-####Serum cholestoral (chol):
+#### Serum cholestoral (chol):
 ```{r}
 cchol=cor(dataset$chol ,dataset$target)
 print(cchol)
 ```
-####Maximum heart rate achieved (thalach):
+#### Maximum heart rate achieved (thalach):
 ```{r}
 cthalach=cor(dataset$thalach ,dataset$target)
 print(cthalach)
 ```
-####ST depression indicated by exercise relative to rest (oldpeak):
+#### ST depression indicated by exercise relative to rest (oldpeak):
 ```{r}
 coldpeak=cor(dataset$oldpeak ,dataset$target)
 print(coldpeak)
 ```
-###Correlation coefficient Results:
+### Correlation coefficient Results:
 The highest correlation coefficient value is ST depression indicated by exercise relative to rest (oldpeak) which is negatively correlated (-0.4291458) with the target. Then, the value of maximum heart rate achieved (thalach) which is positively correlated (0.419955) with the target. Lastly, the value of Serum cholestoral (chol) which is negatively correlated (-0.1070417) with the target.
  
 From the previous results we decided to delete the Fasting blood sugar (fbs) since it is independent from the class label (target) which means that fasting blood sugar (fbs) doesn't affect our class label (target).
@@ -539,15 +545,15 @@ nrow(dataset)
 ```
 After printing a sample from our new data set we notice that the attribute decrease from 14 to 13 since we remove Fasting blood sugar (fbs). Also, the rows decrease from 1025 to 302 since we remove the redunant data. 
 
-######Let the target be binary:
+###### Let the target be binary:
 ```{r}
 dataset$target <- as.factor(dataset$target)
 ```
 
-##Classification and Clustering:
+## Classification and Clustering:
 We will apply supervised (Classification) and unsupervised (Clustering) learning techniques on our data set.
 
-###Classification:
+### Classification:
 It's a process about labeling the data object into predefined classes based on their attribute values. It aims to build and construct a predictive model that can precisely predict the correct class of the new data (unseen data) based on learning process that was applied on the training data. the Classification involves three steps which are: 
 1. Construct the model by using Training set.
 2. Evaluate the model by using Test set which determine the accuracy 
@@ -557,7 +563,7 @@ Our classification goal is to build a model that predicts our data set class lab
 We will partition the data into two partitions which are training and testing sets by trying three different sizes to determine the best size for our model using sample method we assign "True" value to replace attributes since our data set is small so we need a partitioning method that is suitable for small data size and construct samples with replacement.
 For each partition size we construct three decision tree using different attribute selection method which are:Information gain (ID3), Gain ratio (C4.5) and Gini index (CART). For information gain we used ctree method to build the tree Where for gain ratio we used J48 method. For Gini index we used rpart method.For prediction we used predict method. Also, for evaluation and testing we used confusionMatrix method.
 
-####Classification packages:
+#### Classification packages:
 We install and call predifined packages in R language to help us in classification process. which shown below:
 ```{r}
 install.packages("partykit")
@@ -569,7 +575,7 @@ library(rpart)
 library(rpart.plot)
 ```
 
-####Partitioning num.1 
+#### Partitioning num.1 
 We partition the data the data into (70% training, 30% testing). This result in 218 row in the training set and 84 row in the testing set.
 ```{r}
 set.seed(1234)
@@ -579,14 +585,14 @@ test_data=dataset[ind==2,]
 dim(train_data)
 dim(test_data)
 ```
-#####Information Gain:
+##### Information Gain:
 ```{r}
 myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang + oldpeak + slope + ca + thal
 dataset_ctree<-ctree(myFormula, data=train_data)
 table(predict(dataset_ctree), train_data$target)
 ```
 The shown matrix based on training data.
-######Tree based on information gain:
+###### Tree based on information gain:
 ```{r}
 print(dataset_ctree)
 plot(dataset_ctree)
@@ -594,14 +600,14 @@ plot(dataset_ctree,type="simple")
 ```
 We applied two decision tree representations which are regular and simple tree.The result shows that Chest pain type (cp) had the highest information gain value so it was represented in first level (root). 
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 The above matrix is based on applying our model on test data.
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|80.95%|
@@ -611,13 +617,13 @@ The above matrix is based on applying our model on test data.
 |Precision|78.57%|
 
 
-#####Gain ratio:
+##### Gain ratio:
 ```{r}
 C45Fit <- J48(target~.,data=train_data)
 table(predict(C45Fit), train_data$target)
 ```
 The shown matrix based on training data.
-######Tree based on Gain ratio:
+###### Tree based on Gain ratio:
 ```{r}
 print(C45Fit)
 plot(C45Fit)
@@ -625,14 +631,14 @@ plot(C45Fit,type="simple")
 ```
 We applied two decision tree representations which are regular and simple tree.The result shows A blood disorder (thal) had the highest gain ratio value so it was represented in first level (root). 
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(C45Fit,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 The above matrix is based on applying our model on test data.
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|76.19%|
@@ -641,25 +647,26 @@ The above matrix is based on applying our model on test data.
 |Specificity|75%|
 |Precision|80.43%|
 
-#####Gini index
+##### Gini index
 ```{r}
 fit.tree=rpart(target~., data=train_data, method="class",cp=0.008)
 ```
-######Tree based on Gini index :
+
+###### Tree based on Gini index :
 ```{r}
 print(fit.tree)
 rpart.plot(fit.tree)
 ```
 We applied decision tree representation.The result shows that A blood disorder (thal) had the highest ΔGini (impurity reduction) value so it was represented in first level (root). 
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(fit.tree,newdata=test_data,type="class")
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 The above matrix is based on applying our model on test data.
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|76.19%|
@@ -668,7 +675,7 @@ The above matrix is based on applying our model on test data.
 |Specificity|77.78%|
 |Precision|81.82%|
 
-####Partitioning num.2 
+#### Partitioning num.2 
 We partition the data the data into (75% training, 25% testing). This result in 233 row in the training set and 69 row in the testing set.
 ```{r}
 set.seed(1234)
@@ -678,14 +685,14 @@ test_data=dataset[ind==2,]
 dim(train_data)
 dim(test_data)
 ```
-#####Information Gain:
+##### Information Gain:
 ```{r}
 myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang + oldpeak + slope + ca + thal
 dataset_ctree<-ctree(myFormula, data=train_data)
 table(predict(dataset_ctree), train_data$target)
 ```
 The shown matrix based on training data.
-######Tree based on information gain:
+###### Tree based on information gain:
 ```{r}
 print(dataset_ctree)
 plot(dataset_ctree)
@@ -693,14 +700,14 @@ plot(dataset_ctree,type="simple")
 ```
 We applied two decision tree representations which are regular and simple tree.The result shows Number of major vessels (ca) had the highest information gain value so it was represented in first level (root).
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 The above matrix is based on applying our model on test data.
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|79.71%|
@@ -709,26 +716,27 @@ The above matrix is based on applying our model on test data.
 |Specificity|75%|
 |Precision|82.93%|
 
-#####Gain ratio:
+##### Gain ratio:
 ```{r}
 C45Fit <- J48(target~.,data=train_data)
 table(predict(C45Fit), train_data$target)
 ```
-######Tree based on Gain ratio:
+The shown matrix based on training data.
+###### Tree based on Gain ratio:
 ```{r}
 C45Fit
 plot(C45Fit)
 plot(C45Fit,type="simple")
 ```
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(C45Fit,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
 
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|79.71%|
@@ -737,23 +745,23 @@ print(results)
 |Specificity|71.43%|
 |Precision|81.40%|
 
-#####Gini index:
+##### Gini index:
 ```{r}
 fit.tree=rpart(target~., data=train_data, method="class",cp=0.008)
 ```
-######Tree based on Gini index :
+###### Tree based on Gini index :
 ```{r}
 print(fit.tree)
 rpart.plot(fit.tree)
 ```
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(fit.tree,newdata=test_data,type="class")
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|73.91%|
@@ -763,7 +771,7 @@ print(results)
 |Precision|81.08%|
 
 
-####Partitioning num.3 the data into 
+#### Partitioning num.3 the data into 
 We partition the data the data into (80% training, 20% testing). This result in 249 row in the training set and 53 row in the testing set.
 ```{r}
 set.seed(1234)
@@ -773,26 +781,27 @@ test_data=dataset[ind==2,]
 dim(train_data)
 dim(test_data)
 ```
-#####Information Gain:
+##### Information Gain:
 ```{r}
 myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang + oldpeak + slope + ca + thal
 dataset_ctree<-ctree(myFormula, data=train_data)
 table(predict(dataset_ctree), train_data$target)
 ```
-######Tree based on information gain:
+The shown matrix based on training data.
+###### Tree based on information gain:
 ```{r}
 print(dataset_ctree)
 plot(dataset_ctree)
 plot(dataset_ctree,type="simple")
 ```
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(dataset_ctree,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|83.02%|
@@ -801,25 +810,26 @@ print(results)
 |Specificity|75%|
 |Precision|81.25%|
 
-#####Gain ratio:
+##### Gain ratio:
 ```{r}
 C45Fit <- J48(target~.,data=train_data)
 table(predict(C45Fit), train_data$target)
 ```
-######Tree based on Gain ratio:
+The shown matrix based on training data.
+###### Tree based on Gain ratio:
 ```{r}
 print(C45Fit)
 plot(C45Fit)
 plot(C45Fit,type="simple")
 ```
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(C45Fit,newdata=test_data)
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|79.25%|
@@ -828,23 +838,23 @@ print(results)
 |Specificity|75%|
 |Precision|80%|
 
-#####Gini index
+##### Gini index
 ```{r}
 fit.tree=rpart(target~., data=train_data, method="class",cp=0.008)
 ```
-######Tree based on Gini index :
+###### Tree based on Gini index :
 ```{r}
 print(fit.tree)
 rpart.plot(fit.tree)
 ```
 
-######Prediction on test data and Confusion matrix:
+###### Prediction on test data and Confusion matrix:
 ```{r}
 testPred<- predict(fit.tree,newdata=test_data,type="class")
 results<- confusionMatrix(testPred,test_data$target,positive="1")
 print(results)
 ```
-####Schedule for classification Evaluation:
+#### Schedule for classification Evaluation:
 |Evaluation method|value|
 |-----------------|-----|
 |Accuracy|75.47%|
@@ -854,15 +864,93 @@ print(results)
 |Precision|78.57%|
 
 
-###Findings:
+###Evaluation and Comparison of classification:
+We applied several methods to evaluate classification models which are: accuracy, error rate, sensitivity (recall) , specificity, and precision. Accuracy means the ability of the model to classify the data correctly. It’s used to evaluate the performance of the model based on the test data. Error rate is the opposite of the accuracy. it means the ability of the model to classify the data incorrectly. Sensitivity means the ability of the model to correctly identify positive tuples. It also called Recall. Specificity is the opposite of the sensitivity. It means the ability of the model to correctly identify negative tuples. Finally, precision means the proportion of correctly predicted positive tuples out of all tuples predictive as positive.
 
-كلام على رسمه الكلستر و نهايه
+##### Information Gain:
+It measures the amount of information provided by a feature, information gain is used to determine the best feature which has the highest value to split the data at each node of the tree. It uses entropy which is a measure of impurity in a set of data. 
+
+|  |70% training, 30% testing|75% training, 25% testing|80% training, 20% testing|
+
+|-----------------|-----|-----|-----|
+
+|Accuracy|80.95%|79.71%|83.02%|
+
+|Error Rate|19.05%|20.29%|16.98%|
+
+|Sensitivity(Recall)|91.67|82.93%|89.66%|
+
+|Specificity|66.67%|75%|75%|
+
+|Precision|78.57%|82.93%|81.25%|
+
+##### Gain ratio:
+It is a measure used in decision tree algorithms to select the best feature that has the highest value for splitting data. It takes into consideration both the information gain and the split information of a feature.
+
+|  |70% training, 30% testing|75% training, 25% testing|80% training, 20% testing|
+
+|-----------------|-----|-----|-----|
+
+|Accuracy|76.19%|79.71%|79.25%|
+
+|Error Rate|23.81%|20.29%|20.75%|
+
+|Sensitivity(Recall)|77.08%|85.37%|82.76%|
+
+|Specificity|75%|71.43%|75%|
+
+|Precision|80.43%|81.40%|80%|
+
+##### Gini index:
+It is a measurement used in classifying the data and building decision trees, it is used to determine the splitting attribute. The gini index measure the impurity of the data and the attribute with the lowest gini index value will have the highest reduction impurity and will be chosen as the split attribute. 
+
+|  |70% training, 30% testing|75% training, 25% testing|80% training, 20% testing|
+
+|-----------------|-----|-----|-----|
+
+|Accuracy|76.19%|73.91%|75.47%|
+
+|Error Rate|23.81%|26.09%|24.53%|
+
+|Sensitivity(Recall)|75%|73.17%|75.86%|
+
+|Specificity|77.78%|75%|75%|
+
+
+From the previous Schedule we notice that: 
+- For information gain partitioning num.3 (80% training, 20% testing) had the highest accuracy value (83.02%).
+- For Gain ratio partitioning num.2 (75% training, 25% testing) had the highest accuracy value (79.71%).
+- For Gini index partitioning num.1 (70% training, 30% testing) had the highest accuracy value (76.19%).
+Overall, information gain accuracy result was the highest so, we will choose partitioning num.3 (80% training, 20% testing)
+
+#### The disicion tree information gain partitioning num.3 (80% training, 20% testing)
+```{r}
+set.seed(1234)
+ind=sample (2, nrow(dataset), replace=TRUE, prob=c(0.80 , 0.20))
+train_data=dataset[ind==1,]
+test_data=dataset[ind==2,]
+myFormula<- target~ age + sex + cp + trestbps + chol + restecg + thalach + exang + oldpeak + slope + ca + thal
+dataset_ctree<-ctree(myFormula, data=train_data)
+table(predict(dataset_ctree), train_data$target)
+plot(dataset_ctree,type="simple")
+```
+
+
 ### Clustering: 
+Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters). It’s unsupervised learning which means it doesn’t have a class label. In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed (precision and recall).
 
-Clustering is the task of arranging a set of objects in such a way that objects in the same group (cluster) are more comparable (in some sense) to those in other groups (clusters). In this section we are going to partition our data using k-means.we are going to try three different k-means values which are (2,3 and 4).For each trial we will calculate the average silhouette ,total within-cluster sum of square and the BCubed(precision and recall). 
+About packages and methods, We use K-means methods to creat the clusters. Also, For plotting We use fviz_cluster. For evaluation we use fviz_nbclust and fviz_silhouette to calculate the silhouette value. We create a method to calculate Bcubes percision and recall.
+
+#### Packages
+```{r}
+install.packages("factoextra")
+library(factoextra)
+library(NbClust)
+library(cluster)
+```
+
 
 #### Removing the class label(target) before we partition our data 
-
 We have to remove the class label(target) since the clustering is an unsupervised learning.
 
 ```{r}
@@ -897,18 +985,8 @@ here is a simple representation to our structure after converting all data into 
 str(dataset)
 ```
 
-```{r}
-install.packages("factoextra")
-library(factoextra)
-```
 
-```{r}
-library(NbClust)
-library(cluster)
-```
-
-
-#### Optimal number of clusters
+####Optimal number of clusters
 ```{r}
 fviz_nbclust(dataset, kmeans, method = "silhouette")+labs(subtitle ="Silhouette method")
 ```
@@ -929,7 +1007,7 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
              ellipse.type = "norm", geom = "point", stand = FALSE,          
              palette = "jco", ggtheme = theme_classic())
 ```
-The better the clusters are separated from each other, the more optimal the value of K is. If the value of K is 2, there will be some overlap between certain values.
+From the above results and the cluster representation we notice that there's two clusters. First cluster contains 183 objects with total sum of square 5687.175. Second cluster contains 119 object with total sum of square 3524.142. The value of the total sum of square indicate that the larger value means the larger seperation so,the object in the first cluster are more separated than the object in the second cluster. Also, we notice that there's few outliers in each cluster. 
 #### Average silhouette
 ```{r}
 sil <- silhouette(km$cluster, dist(dataset)) 
@@ -939,16 +1017,13 @@ rownames(sil) <- rownames(dataset)
 ```{r}
 fviz_silhouette(sil)
 ```
-
 The average silhouette width of 0.53 suggests that the data points in a clustering analysis are well-matched to their assigned clusters and the clusters themselves are reasonably separated from each other. A positive average silhouette width indicates that, on average, the data points are well-clustered and have a higher similarity to their own cluster compared to other clusters.
 
 #### Total within-cluster-sum of square
 ```{r}
 km$tot.withinss
 ```
-
-
-#### BCubed precision and recall
+####BCubed precision and recall
 ```{r}
 cluster_assignments <- c(km$cluster)
 ground_truth_labels <- c(dataBeforC$target)
@@ -1013,6 +1088,7 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
              ellipse.type = "norm", geom = "point", stand = FALSE,     
              palette = "jco", ggtheme = theme_classic())
 ```
+From the above results and the cluster representation we notice that there's three clusters. First cluster contains 136 objects with total sum of square 1917.605. Second cluster contains 87 objects with total sum of square 1762.273. The third cluster contains 79 objects which is the smallest with total sum of square 1379.237.The value of the total sum of square indicate that the larger value means the larger separation so,the object in the first cluster are more separated than the objects in the other clusters and the high number of objects may have impacted this value since WSS is influenced by the number of observations.smallest WSS was for the third cluster that indicates that the objects are more compact.Also, we notice that there's few outliers in the third cluster and only one outlier in the second cluster.
 
 #### Average silhouette
 ```{r}
@@ -1023,7 +1099,7 @@ rownames(sil) <- rownames(dataset)
 ```{r}
 fviz_silhouette(sil)
 ```
-The average silhouette width is 0.47. This value indicates that, on average, the data points within the clusters are reasonably well-separated from each other and exhibit some similarity to the points in their neighboring clusters. However, it's important to note that the interpretation of the silhouette width heavily depends on the specific dataset and problem domain. Different datasets may have different standards for what constitutes a good or bad silhouette width.
+The average silhouette width is 0.47. This value indicates that, on average, the data points within the clusters are reasonably well-separated from each other and exhibit some similarity to the points in their neighboring clusters. However, it's important to note that the interpretation of the silhouette width heavily depends on the specific data set and problem domain. Different data set may have different standards for what constitutes a good or bad silhouette width.
 
 #### Total within-cluster-sum of square
 ```{r}
@@ -1079,7 +1155,6 @@ recall <- metrics$recall
 cat("BCubed Precision:", precision, "\n")
 cat("BCubed Recall:", recall, "\n")
 ```
-
 The Bcubed precision value of 0.5250096 suggests that approximately 52.5% of the items within each cluster are correctly assigned to the same cluster as other similar items. This indicates that the clustering algorithm has some success in grouping similar items together.  The Bcubed recall value of 0.3668491 indicates that around 36.7% of the items that should belong to the same cluster are indeed assigned to that cluster. This means that the algorithm is capturing only a fraction of the items that should be grouped together.
 
 #### calculate k-mean k=4
@@ -1094,6 +1169,7 @@ fviz_cluster(list(data = dataset, cluster = km$cluster),
              ellipse.type = "norm", geom = "point", stand = FALSE,         
              palette = "jco", ggtheme = theme_classic()) 
 ```
+From the above results and the cluster representation we notice that there's four clusters. First cluster contains 60 objects with total sum of square 930.4175. Second cluster contains 73 objects with total sum of square 677.2899. The third cluster contains 99 objects  with total sum of square 907.0856. The fourth cluster contains 70 objects  with total sum of square 1140.7632. The value of the total sum of square indicate that the larger value means the larger separation so,the object in the fourth cluster are more separated than the objects in the other clusters .smallest WSS was for the second cluster that indicates that the objects are more compact. Also, we notice that there's few outliers in the first and the fourth clusters. 
 
 #### Average silhouette
 ```{r}
@@ -1175,8 +1251,36 @@ A precision of 0.5502816 suggests that approximately 55.0% of the items within t
 | Visualization                            | all of the figures is shown above | all of the figures is shown above       |    all of the figures is shown above               |
 
 ### Findings:
+In classification, We perform multiple decision trees using different partitioning splits and different attribute selection method we chose that had the best accuracy which is partitioning data into 80% training and 20% testing with information gain attribute selection. It had the highest accuracy (83.02%) indicating that the model had the best performance in predicting the correct class labels(targeted or not targeted to heart disease). In the other hand, the error rate was low (16.98%) since it equals (1-accuracy) and it shows the percent of incorrect predictions. For sensitivity it was (89.66%) which is high and tells that the model can well predict the positive instances (targeted to heart attack) and for specificity it was (75%)  which is lower than the sensitivity and it tells how the model can predict the negative instances (not targeted to heart attack). Lastly, the precision was (81.25%) indicating  the true positive instances over all that instances the model predicted as positive.
 
+The decision tree had 6 pathes from the root to the leaves so, we will have 6 rules.
+Rules:
+1- if number of major vessels (ca) <= 0 and exercise induced angina (exang) <= 0 and  blood disorder (thal) <= 2 then target to have heart disease (target= 1) 
+2- if number of major vessels (ca) <= 0 and exercise induced angina (exang) <= 0 and  blood disorder (thal) > 2 then target to have heart disease (target= 1) 
+3- if number of major vessels (ca) <= 0 and exercise induced angina (exang) > 0 and chest pain type (cp) <= 0 then not target to have heart disease (target= 0) 
+4- if number of major vessels (ca) <= 0 and exercise induced angina (exang) > 0 and chest pain type (cp) > 0 then  target to have heart disease (target= 1) 
+5- if number of major vessels (ca) > 0 and  chest pain type (cp) <= 0 then not target to have heart disease (target= 0)
+6- if number of major vessels (ca) > 0 and  chest pain type (cp) > 0 then target to have heart disease (target= 1).
+The decision tree illustrates that 4 attributes were used in predicting the class label which are (number of major vessels (ca), exercise induced angina (exang),blood disorder (thal) and chest pain type (cp)) where the other attributes had no effect in the class label prediction.
+
+
+In Clustering, As previously mentioned, we used the K-means approach with three different values of K (K=2,3,4) to determine the optimal number of clusters. The average silhouette width, total within-cluster sum of squares, precision, and recall were used to evaluate the results.  We came at the following findings after studying the data:
+
+The average silhouette width for K=2 was 0.53, showing that objects within a cluster were closely grouped and distinguishable from objects in other clusters. The overall within-cluster sum of squares was 9211.418, identifying that the variation within the clusters was rather substantial.Precision and recall were 0.5347233 and 0.5523007, respectively.This demonstrates a balanced capability to accurately capture instances within clusters and recognize relevant points.
+
+The average silhouette width dropped to 0.47 for K=3. The overall within-cluster sum of squares decreased to 5059.114, indicating that there is less diversity within the clusters than when K=2 was used. The accuracy and recall scores were 0.5250096 and 0.3668491, indicating a significantly reduced capacity to collect occurrences and identify all relevant points.
+
+The average silhouette width dropped to 0.4 for K=4. The variance within the clusters is even lower than when K=3, as evidenced by the total within-cluster sum of squares dropping to 3655.556. With precision and recall values of 0.5502816 and 0.2854758, respectively, there was a greater capacity to precisely record instances, but a reduced capacity to recognize every pertinent point.
+
+The conclusion of these findings lead us to that the 2-Mean clustering model to be optimal. It had the highest average silhouette width, indicating tight and well-separated clusters. Additionally, it exhibited the least overlap between clusters compared to the other models. Although it had higher variance within the clusters, the precision and recall values were relatively balanced, indicating a good ability to accurately capture instances and identify relevant points.
+
+
+were helpful for building models for our data set that can help in reaching our goal which is protecting people from heart attacks, but since our data set  includes class label which is target, classification was considered the best option to predict the possibilities of having heart attack based on the attributes also the model had great accuracy.
+
+<<<<<<< HEAD
+=======
 As previously mentioned, we used the K-means approach with three different values of K (K=2,3,4) to determine the optimal number of clusters. The average silhouette width, total within-cluster sum of squares, precision, and recall were used to evaluate the the results.  We came at the following findings after studying the data:
+>>>>>>> a64193653a078007939da5d7a0839b42c0d5fb5f
 
 The average silhouette width for K=2 was 0.53, showing that objects within a cluster were closely grouped and distinguishable from objects in other clusters. The overall within-cluster sum of squares was 9211.418, identifying that the variation within the clusters was rather substantial.Precision and recall were 0.5347233 and 0.5523007, respectively.This demonstrates a balanced capability to accurately capture instances within clusters and recognize relevant points. 
 
